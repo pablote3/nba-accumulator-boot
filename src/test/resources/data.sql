@@ -1,0 +1,11 @@
+insert into team VALUES(1, 'CHI', 'Chicago', 'East', 'Central', 'Chicago', '2009-07-01', 'Chicago Zephyr''s', 'Zephyrs', 'Chicago Coliseum', 'IL', 'chicago-zephyr''s', '9999-12-31');
+insert into team VALUES(2, 'HAR', 'Harlem', 'East', 'Atlantic', 'Harlem', '2009-07-01', 'Harlem Globetrotter''s', 'Globetrotter''s', 'Rucker Park', 'NY', 'harlem-globetrotter''s', '2010-06-30');
+insert into team VALUES(3, 'STL', 'St. Louis', 'East', 'Southwest', 'St. Louis', '2009-07-01', 'St. Louis Bomber''s', 'Bomber''s', 'St. Louis Arena', 'MO', 'st-louis-bomber''s', '2010-06-30');
+insert into team VALUES(4, 'SAL', 'Salinas', 'West', 'Pacific', 'Salinas', '2010-07-01', 'Salinas Cowboys', 'Cowboys', 'Salinas High School', 'CA', 'salinas-cowboys', '9999-12-31');
+insert into team VALUES(5, 'STL', 'Baltimore', 'East', 'Southeast', 'Baltimore', '2005-07-01', 'Baltimore Bullets', 'Bullets', 'Baltimore Coliseum', 'MD', 'baltimore-bullets', '2006-06-30');
+insert into team VALUES(6, 'CLE', 'Rebels', 'East', 'Central', 'Cleveland', '2010-07-01', 'Cleveland Rebels', 'Rebels', 'Cleveland Arena', 'OH', 'cleveland-rebels', '9999-12-31');
+insert into team VALUES(7, 'ROC', 'Rochester', 'East', 'Atlantic', 'Rochester', '2008-07-01', 'Rochester Royals', 'Royals', 'Edgerton Park Arena', 'NY', 'rochester-royals', '2009-06-30');
+insert into team VALUES(8, 'STL', 'St. Louis', 'East', 'Southwest', 'St. Louis', '2010-07-01', 'St. Louis Bomber''s', 'Bomber''s', 'St. Louis Multiplex', 'MO', 'st-louis-bomber''s', '2011-06-30');
+insert into team VALUES(9, 'DET', 'Detroit', 'East', 'Central', 'Detroit', '2010-07-01', 'Detroit Pistons', 'Pistons', 'Palace of Auburn Hills', 'MI', 'detroit-pistons', '9999-12-31');
+insert into team VALUES(20, 'CHI', 'Chicago', 'East', 'Central', 'Chicago', '2012-07-01', 'Chicago Bulls', 'Bulls', 'United Center', 'IL', 'chicago-bulls', '9999-12-31');
+insert into team VALUES(21, 'UTA', 'Salt Lake City', 'West', 'Northwest', 'Utah', '2012-07-01', 'Utah Jazz', 'Jazz', 'Energy Solutions Arena', 'UT', 'utah-jazz', '9999-12-31');
