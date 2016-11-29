@@ -12,7 +12,7 @@ public interface TeamRepository extends Repository<Team, Long> {
 
 	Team findOne(Long id);
 
-	Team save(Team persisted);
+	Team save(Team team);
 
 	List<Team> findByTeamKey(String teamKey);
 

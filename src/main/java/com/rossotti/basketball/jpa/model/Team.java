@@ -15,11 +15,6 @@ public class Team extends AbstractDomainClass {
 		setStatusCode(statusCode);
 	}
 
-	@Override
-	public Long getId() {
-		return id;
-	}
-
 	@Column(name="teamKey", length=35, nullable=false)
 	private String teamKey;
 	public String getTeamKey() {
