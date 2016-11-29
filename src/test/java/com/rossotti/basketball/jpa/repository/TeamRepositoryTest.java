@@ -1,12 +1,16 @@
 package com.rossotti.basketball.jpa.repository;
 
 import com.rossotti.basketball.jpa.model.Team;
+import com.rossotti.basketball.jpa.model.Team.Conference;
+import com.rossotti.basketball.jpa.model.Team.Division;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.TransactionSystemException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -118,34 +122,33 @@ public class TeamRepositoryTest {
 		Assert.assertEquals(0, teams.size());
 	}
 
-//	@Test
-//	public void createTeam_Created_AsOfDate() {
-//		Team createTeam = teamService.createTeam(createMockTeam("seattle-supersonics", new LocalDate("2012-07-01"), new LocalDate("9999-12-31"), "Seattle Supersonics"));
-//		Team findTeam = teamService.findTeam("seattle-supersonics", new LocalDate("2012-07-01"));
-//		Assert.assertTrue(createTeam.isCreated());
-//		Assert.assertEquals("Seattle Supersonics", findTeam.getFullName());
-//	}
-//
-//	@Test
-//	public void createTeam_Created_DateRange() {
-//		Team createTeam = teamService.createTeam(createMockTeam("baltimore-bullets", new LocalDate("2006-07-01"), new LocalDate("2006-07-02"), "Baltimore Bullets2"));
-//		Team findTeam = teamService.findTeam("baltimore-bullets", new LocalDate("2006-07-01"));
-//		Assert.assertTrue(createTeam.isCreated());
-//		Assert.assertEquals("Baltimore Bullets2", findTeam.getFullName());
-//	}
-//
-//	public void createTeam_OverlappingDates() {
-//		Team createTeam = teamService.createTeam(createMockTeam("baltimore-bullets", new LocalDate("2005-07-01"), new LocalDate("2005-07-01"), "Baltimore Bullets"));
-//		Assert.assertTrue(createTeam.isFound());
-//	}
-//
-//	@Test(expected=PropertyValueException.class)
-//	public void createTeam_MissingRequiredData() {
-//		Team team = new Team();
-//		team.setTeamKey("missing-required-data-key");
-//		teamService.createTeam(team);
-//	}
-//
+	@Test
+	public void create_Created_AsOfDate() {
+		teamRepository.save(createMockTeam("seattle-supersonics", LocalDate.of(2012, 7, 1), LocalDate.of(9999, 12, 31), "Seattle Supersonics"));
+		Team findTeam = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("seattle-supersonics", LocalDate.of(2012, 7, 2), LocalDate.of(2012, 7, 2));
+		Assert.assertEquals("Seattle Supersonics", findTeam.getFullName());
+	}
+
+	@Test
+	public void createTeam_Created_DateRange() {
+		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2006, 7, 1), LocalDate.of(2006, 7, 3), "Baltimore Bullets2"));
+		Team findTeam = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2006, 7, 2), LocalDate.of(2006, 7, 2));
+		Assert.assertEquals("Baltimore Bullets2", findTeam.getFullName());
+	}
+
+	@Test(expected=IncorrectResultSizeDataAccessException.class)
+	public void createTeam_OverlappingDates() {
+		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2005, 7, 1), LocalDate.of(2005, 7, 3), "Baltimore Bullets"));
+		teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2005, 7, 2), LocalDate.of(2005, 7, 2));
+	}
+
+	@Test(expected=TransactionSystemException.class)
+	public void createTeam_MissingRequiredData() {
+		Team team = new Team();
+		team.setTeamKey("missing-required-data-key");
+		teamRepository.save(team);
+	}
+
 //	@Test
 //	public void updateTeam() {
 //		teamService.updateTeam(updateMockTeam("st-louis-bomber's", new LocalDate("2009-07-01"), new LocalDate("2010-06-30"), "St. Louis Bombier's"));
@@ -178,24 +181,24 @@ public class TeamRepositoryTest {
 //		Team deleteTeam = teamService.deleteTeam("rochester-royales", new LocalDate("2009-07-01"));
 //		Assert.assertTrue(deleteTeam.isNotFound());
 //	}
-//
-//	private Team createMockTeam(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
-//		Team team = new Team();
-//		team.setTeamKey(key);
-//		team.setFromDate(fromDate);
-//		team.setToDate(toDate);
-//		team.setAbbr("SEA");
-//		team.setFirstName("Seattle");
-//		team.setLastName("Supersonics");
-//		team.setConference(Conference.West);
-//		team.setDivision(Division.Pacific);
-//		team.setSiteName("Key Arena");
-//		team.setCity("Seattle");
-//		team.setState("WA");
-//		team.setFullName(fullName);
-//		return team;
-//	}
-//
+
+	private Team createMockTeam(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
+		Team team = new Team();
+		team.setTeamKey(key);
+		team.setFromDate(fromDate);
+		team.setToDate(toDate);
+		team.setAbbr("SEA");
+		team.setFirstName("Seattle");
+		team.setLastName("Supersonics");
+		team.setConference(Conference.West);
+		team.setDivision(Division.Pacific);
+		team.setSiteName("Key Arena");
+		team.setCity("Seattle");
+		team.setState("WA");
+		team.setFullName(fullName);
+		return team;
+	}
+
 //	private Team updateMockTeam(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
 //		Team team = new Team();
 //		team.setTeamKey(key);

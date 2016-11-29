@@ -68,8 +68,16 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public Team saveOrUpdate(Team team) {
-		return teamRepository.save(team);
+	public Team create(Team createTeam) {
+		Team team = findByTeamKeyAndDate(createTeam.getTeamKey(), createTeam.getFromDate());
+		if (team.isNotFound()) {
+			teamRepository.save(createTeam);
+			createTeam.setStatusCode(StatusCodeDAO.Created);
+			return createTeam;
+		}
+		else {
+			return team;
+		}
 	}
 
 	@Override
