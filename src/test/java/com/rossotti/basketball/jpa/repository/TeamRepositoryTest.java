@@ -29,6 +29,12 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
+	public void findAll() {
+		List<Team> teams = (List<Team>)teamRepository.findAll();
+		Assert.assertEquals(11, teams.size());
+	}
+
+	@Test
 	public void findByKey_Found_FromDate() {
 		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-globetrotter's", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
 		Assert.assertEquals("Harlem Globetrotter's", team.getFullName());
@@ -88,43 +94,30 @@ public class TeamRepositoryTest {
 		Assert.assertNull(team);
 	}
 
-
 	@Test
-	public void findAll() {
-		List<Team> teams = (List<Team>)teamRepository.findAll();
-		Assert.assertEquals(11, teams.size());
+	public void findByKey_Found() {
+		List<Team> teams = teamRepository.findByTeamKey("st-louis-bomber's");
+		Assert.assertEquals(2, teams.size());
 	}
 
 	@Test
-	public void findByTeamKey() {
-		List<Team> teams = teamRepository.findByTeamKey("salinas-cowboys");
-		Assert.assertEquals("Salinas Cowboys", teams.get(0).getFullName());
+	public void findByKey_NotFound() {
+		List<Team> teams = teamRepository.findByTeamKey("st-louis-bombber's");
+		Assert.assertEquals(0, teams.size());
 	}
 
-//	@Test
-//	public void findTeamsByKey_Found() {
-//		List<Team> teams = teamService.findTeams("st-louis-bomber's");
-//		Assert.assertEquals(2, teams.size());
-//	}
-//
-//	@Test
-//	public void findTeamsByKey_NotFound() {
-//		List<Team> teams = teamService.findTeams("st-louis-bombber's");
-//		Assert.assertEquals(0, teams.size());
-//	}
-//
-//	@Test
-//	public void findTeamsByDateRange_Found() {
-//		List<Team> teams = teamService.findTeams(new LocalDate("2009-10-31"));
-//		Assert.assertEquals(3, teams.size());
-//	}
-//
-//	@Test
-//	public void findTeamsByDateRange_NotFound() {
-//		List<Team> teams = teamService.findTeams(new LocalDate("1909-10-31"));
-//		Assert.assertEquals(0, teams.size());
-//	}
-//
+	@Test
+	public void findByDate_Found() {
+		List<Team> teams = teamRepository.findByFromDateBeforeAndToDateAfter(LocalDate.of(2009, 10, 30), LocalDate.of(2009, 10, 30));
+		Assert.assertEquals(3, teams.size());
+	}
+
+	@Test
+	public void findByDate_NotFound() {
+		List<Team> teams = teamRepository.findByFromDateBeforeAndToDateAfter(LocalDate.of(1909, 10, 30), LocalDate.of(1909, 10, 30));
+		Assert.assertEquals(0, teams.size());
+	}
+
 //	@Test
 //	public void createTeam_Created_AsOfDate() {
 //		Team createTeam = teamService.createTeam(createMockTeam("seattle-supersonics", new LocalDate("2012-07-01"), new LocalDate("9999-12-31"), "Seattle Supersonics"));

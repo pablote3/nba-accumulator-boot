@@ -27,8 +27,13 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public Team findByTeamKeyAndDate(String teamKey, LocalDate date) {
-		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter(teamKey, date.plusDays(1), date.minusDays(1));
+	public List<Team> findByDate(LocalDate asOfDate) {
+		return teamRepository.findByFromDateBeforeAndToDateAfter(asOfDate.plusDays(1), asOfDate.minusDays(1));
+	}
+
+	@Override
+	public Team findByTeamKeyAndDate(String teamKey, LocalDate asOfDate) {
+		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter(teamKey, asOfDate.plusDays(1), asOfDate.minusDays(1));
 		if (team != null) {
 			team.setStatusCode(StatusCodeDAO.Found);
 		}
