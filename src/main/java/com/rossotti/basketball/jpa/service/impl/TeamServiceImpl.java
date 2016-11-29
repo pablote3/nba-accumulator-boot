@@ -39,6 +39,18 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
+	public Team findByLastNameAndDate(String lastName, LocalDate date) {
+		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter(lastName, date.plusDays(1), date.minusDays(1));
+		if (team != null) {
+			team.setStatusCode(StatusCodeDAO.Found);
+		}
+		else {
+			team = new Team(StatusCodeDAO.NotFound);
+		}
+		return team;
+	}
+
+	@Override
 	public List<?> listAll() {
 		List<Team> teams = new ArrayList<>();
 		teamRepository.findAll().forEach(teams::add);

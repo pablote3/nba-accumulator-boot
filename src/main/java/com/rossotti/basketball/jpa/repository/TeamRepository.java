@@ -17,4 +17,6 @@ public interface TeamRepository extends Repository<Team, Long> {
 	List<Team> findByTeamKey(String teamKey);
 
 	Team findByTeamKeyAndFromDateBeforeAndToDateAfter(String teamKey, LocalDate fromDate, LocalDate toDate);
+
+	Team findByLastNameAndFromDateBeforeAndToDateAfter(String lastName, LocalDate fromDate, LocalDate toDate);
 }
