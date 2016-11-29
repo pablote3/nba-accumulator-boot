@@ -23,54 +23,42 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	public void listAll() {
-		List<Team> teams = (List<Team>)teamService.listAll();
-		Assert.assertEquals(11, teams.size());
-	}
-
-	@Test
 	public void getById() {
 		Team team = teamService.getById(1L);
 		Assert.assertEquals("Chicago Zephyr's", team.getFullName());
 	}
 
 	@Test
-	public void findByTeamKey() {
-		List<Team> teams = teamService.findByTeamKey("salinas-cowboys");
-		Assert.assertEquals("Salinas Cowboys", teams.get(0).getFullName());
-	}
-
-	@Test
-	public void findTeamByKey_Found_FromDate() {
+	public void findByKey_Found_FromDate() {
 		Team findTeam = teamService.findByTeamKeyAndDate("harlem-globetrotter's", LocalDate.of(2009, 7, 1));
 		Assert.assertEquals("Harlem Globetrotter's", findTeam.getFullName());
 	}
 
-//	@Test
-//	public void findTeamByKey_Found_ToDate() {
-//		Team findTeam = teamService.findTeam("harlem-globetrotter's", new LocalDate("2010-06-30"));
-//		Assert.assertEquals("Harlem Globetrotter's", findTeam.getFullName());
-//		Assert.assertTrue(findTeam.isFound());
-//	}
-//
-//	@Test
-//	public void findTeamByKey_NotFound_TeamKey() {
-//		Team findTeam = teamService.findTeam("harlem-hooper's", new LocalDate("2009-07-01"));
-//		Assert.assertTrue(findTeam.isNotFound());
-//	}
-//
-//	@Test
-//	public void findTeamByKey_NotFound_BeforeAsOfDate() {
-//		Team findTeam = teamService.findTeam("harlem-globetrotter's", new LocalDate("2009-06-30"));
-//		Assert.assertTrue(findTeam.isNotFound());
-//	}
-//
-//	@Test
-//	public void findTeamByKey_NotFound_AfterAsOfDate() {
-//		Team findTeam = teamService.findTeam("harlem-globetrotter's", new LocalDate("2010-07-01"));
-//		Assert.assertTrue(findTeam.isNotFound());
-//	}
-//
+	@Test
+	public void findByKey_Found_ToDate() {
+		Team findTeam = teamService.findByTeamKeyAndDate("harlem-globetrotter's", LocalDate.of(2010, 06, 30));
+		Assert.assertEquals("Harlem Globetrotter's", findTeam.getFullName());
+		Assert.assertTrue(findTeam.isFound());
+	}
+
+	@Test
+	public void findByKey_NotFound_TeamKey() {
+		Team findTeam = teamService.findByTeamKeyAndDate("harlem-hooper's", LocalDate.of(2009, 07, 1));
+		Assert.assertTrue(findTeam.isNotFound());
+	}
+
+	@Test
+	public void findByKey_NotFound_BeforeAsOfDate() {
+		Team findTeam = teamService.findByTeamKeyAndDate("harlem-globetrotter's", LocalDate.of(2009, 06, 30));
+		Assert.assertTrue(findTeam.isNotFound());
+	}
+
+	@Test
+	public void findByKey_NotFound_AfterAsOfDate() {
+		Team findTeam = teamService.findByTeamKeyAndDate("harlem-globetrotter's", LocalDate.of(2010, 07, 1));
+		Assert.assertTrue(findTeam.isNotFound());
+	}
+
 //	@Test
 //	public void findTeamByLastName_Found_FromDate() {
 //		Team findTeam = teamService.findTeamByLastName("Globetrotter's", new LocalDate("2009-07-01"));
@@ -102,7 +90,19 @@ public class TeamServiceTest {
 //		Team findTeam = teamService.findTeamByLastName("Globetrotter's", new LocalDate("2010-07-01"));
 //		Assert.assertTrue(findTeam.isNotFound());
 //	}
-//
+
+	@Test
+	public void listAll() {
+		List<Team> teams = (List<Team>)teamService.listAll();
+		Assert.assertEquals(11, teams.size());
+	}
+
+	@Test
+	public void findByTeamKey() {
+		List<Team> teams = teamService.findByTeamKey("salinas-cowboys");
+		Assert.assertEquals("Salinas Cowboys", teams.get(0).getFullName());
+	}
+
 //	@Test
 //	public void findTeamsByKey_Found() {
 //		List<Team> teams = teamService.findTeams("st-louis-bomber's");
