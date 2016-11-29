@@ -1,5 +1,6 @@
 package com.rossotti.basketball.jpa.service.impl;
 
+import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
 import com.rossotti.basketball.jpa.model.Team;
 import com.rossotti.basketball.jpa.repository.TeamRepository;
 import com.rossotti.basketball.jpa.service.TeamService;
@@ -27,7 +28,14 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public Team findByTeamKeyAndDate(String teamKey, LocalDate date) {
-		return teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter(teamKey, date.plusDays(1), date.minusDays(1));
+		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter(teamKey, date.plusDays(1), date.minusDays(1));
+		if (team != null) {
+			team.setStatusCode(StatusCodeDAO.Found);
+		}
+		else {
+			team = new Team(StatusCodeDAO.NotFound);
+		}
+		return team;
 	}
 
 	@Override

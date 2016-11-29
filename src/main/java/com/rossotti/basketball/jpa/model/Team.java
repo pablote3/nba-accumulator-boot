@@ -5,15 +5,19 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name="team", uniqueConstraints=@UniqueConstraint(columnNames={"teamKey", "fromDate", "toDate"}))
-public class Team {
-	@Id
-	@GeneratedValue(strategy= GenerationType.AUTO)
-	private Long id;
+public class Team extends AbstractDomainClass {
+
+	public Team() {
+		setStatusCode(StatusCodeDAO.Found);
+	}
+
+	public Team(StatusCodeDAO statusCode) {
+		setStatusCode(statusCode);
+	}
+
+	@Override
 	public Long getId() {
 		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	@Column(name="teamKey", length=35, nullable=false)
