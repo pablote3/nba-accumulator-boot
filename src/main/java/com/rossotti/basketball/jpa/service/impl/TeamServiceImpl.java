@@ -102,7 +102,15 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public void delete(Long id) {
-		teamRepository.delete(id);
+	public Team delete(Long id) {
+		Team findTeam = getById(id);
+		if (findTeam != null && findTeam.isFound()) {
+			teamRepository.delete(findTeam.getId());
+			findTeam.setStatusCode(StatusCodeDAO.Deleted);
+			return findTeam;
+		}
+		else {
+			return new Team(StatusCodeDAO.NotFound);
+		}
 	}
 }

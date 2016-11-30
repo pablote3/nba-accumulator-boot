@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.TransactionSystemException;
@@ -36,7 +37,7 @@ public class TeamRepositoryTest {
 	@Test
 	public void findAll() {
 		List<Team> teams = (List<Team>)teamRepository.findAll();
-		Assert.assertEquals(11, teams.size());
+		Assert.assertEquals(12, teams.size());
 	}
 
 	@Test
@@ -162,20 +163,17 @@ public class TeamRepositoryTest {
 		teamRepository.save(updateMockTeam(3L,"st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
 	}
 
-//	@Test
-//	public void deleteTeam_Deleted() {
-//		Team deleteTeam = teamService.deleteTeam("rochester-royals", new LocalDate("2009-06-30"));
-//		teamService.deleteTeam("rochester-royals", new LocalDate("2009-06-30"));
-//		Team findTeam = teamService.findTeam("rochester-royals", new LocalDate("2009-06-30"));
-//		Assert.assertTrue(deleteTeam.isDeleted());
-//		Assert.assertTrue(findTeam.isNotFound());
-//	}
-//
-//	@Test
-//	public void deleteTeam_NotFound() {
-//		Team deleteTeam = teamService.deleteTeam("rochester-royales", new LocalDate("2009-07-01"));
-//		Assert.assertTrue(deleteTeam.isNotFound());
-//	}
+	@Test
+	public void delete_Deleted() {
+		teamRepository.delete(10L);
+		Team findTeam = teamRepository.findOne(10L);
+		Assert.assertNull(findTeam);
+	}
+
+	@Test(expected = EmptyResultDataAccessException.class)
+	public void delete_NotFound() {
+		teamRepository.delete(101L);
+	}
 
 	private Team createMockTeam(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
 		Team team = new Team();

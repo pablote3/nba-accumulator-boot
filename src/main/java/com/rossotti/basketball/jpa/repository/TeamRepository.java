@@ -6,13 +6,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface TeamRepository extends Repository<Team, Long> {
-	void delete(Long id);
 
 	List<Team> findAll();
 
 	Team findOne(Long id);
 
 	Team save(Team team);
+
+	void delete(Long id);
 
 	List<Team> findByTeamKey(String teamKey);
 

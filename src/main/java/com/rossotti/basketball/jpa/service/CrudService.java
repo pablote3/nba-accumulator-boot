@@ -11,5 +11,5 @@ public interface CrudService<T> {
 
 	T update(T domainObject);
 
-	void delete(Long id);
+	T delete(Long id);
 }

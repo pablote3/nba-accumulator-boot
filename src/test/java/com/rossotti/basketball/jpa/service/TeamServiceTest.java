@@ -179,20 +179,19 @@ public class TeamServiceTest {
 		teamService.update(updateMockTeam("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
 	}
 
-//	@Test
-//	public void deleteTeam_Deleted() {
-//		Team deleteTeam = teamService.deleteTeam("rochester-royals", new LocalDate("2009-06-30"));
-//		teamService.deleteTeam("rochester-royals", new LocalDate("2009-06-30"));
-//		Team findTeam = teamService.findTeam("rochester-royals", new LocalDate("2009-06-30"));
-//		Assert.assertTrue(deleteTeam.isDeleted());
-//		Assert.assertTrue(findTeam.isNotFound());
-//	}
-//
-//	@Test
-//	public void deleteTeam_NotFound() {
-//		Team deleteTeam = teamService.deleteTeam("rochester-royales", new LocalDate("2009-07-01"));
-//		Assert.assertTrue(deleteTeam.isNotFound());
-//	}
+	@Test
+	public void delete_Deleted() {
+		Team deleteTeam = teamService.delete(7L);
+		Team findTeam = teamService.getById(7L);
+		Assert.assertNull(findTeam);
+		Assert.assertTrue(deleteTeam.isDeleted());
+	}
+
+	@Test
+	public void delete_NotFound() {
+		Team deleteTeam = teamService.delete(101L);
+		Assert.assertTrue(deleteTeam.isNotFound());
+	}
 
 	private Team createMockTeam(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
 		Team team = new Team();
