@@ -1,7 +1,11 @@
 package com.rossotti.basketball.jpa.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="team", uniqueConstraints=@UniqueConstraint(columnNames={"teamKey", "fromDate", "toDate"}))
@@ -14,6 +18,17 @@ public class Team extends AbstractDomainClass {
 	public Team(StatusCodeDAO statusCode) {
 		setStatusCode(statusCode);
 	}
+
+	@OneToMany(mappedBy="team", fetch = FetchType.LAZY)
+	private List<Standing> standings = new ArrayList<Standing>();
+	public List<Standing> getStandings() {
+		return standings;
+	}
+	@JsonManagedReference(value="standing-to-team")
+	public void setStandings(List<Standing> standings) {
+		this.standings = standings;
+	}
+
 
 	@Column(name="teamKey", length=35, nullable=false)
 	private String teamKey;
