@@ -81,6 +81,27 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
+	public Team update(Team updateTeam) {
+		Team team = findByTeamKeyAndDate(updateTeam.getTeamKey(), updateTeam.getFromDate());
+		if (team.isFound()) {
+			team.setLastName(updateTeam.getLastName());
+			team.setFirstName(updateTeam.getFirstName());
+			team.setFullName(updateTeam.getFullName());
+			team.setAbbr(updateTeam.getAbbr());
+			team.setFromDate(updateTeam.getFromDate());
+			team.setToDate(updateTeam.getToDate());
+			team.setConference(updateTeam.getConference());
+			team.setDivision(updateTeam.getDivision());
+			team.setCity(updateTeam.getCity());
+			team.setState(updateTeam.getState());
+			team.setSiteName(updateTeam.getSiteName());
+			teamRepository.save(team);
+			team.setStatusCode(StatusCodeDAO.Updated);
+		}
+		return team;
+	}
+
+	@Override
 	public void delete(Long id) {
 		teamRepository.delete(id);
 	}

@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.TransactionSystemException;
@@ -130,43 +131,37 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	public void createTeam_Created_DateRange() {
+	public void create_Created_DateRange() {
 		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2006, 7, 1), LocalDate.of(2006, 7, 3), "Baltimore Bullets2"));
 		Team findTeam = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2006, 7, 2), LocalDate.of(2006, 7, 2));
 		Assert.assertEquals("Baltimore Bullets2", findTeam.getFullName());
 	}
 
 	@Test(expected=IncorrectResultSizeDataAccessException.class)
-	public void createTeam_OverlappingDates() {
+	public void create_OverlappingDates() {
 		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2005, 7, 1), LocalDate.of(2005, 7, 3), "Baltimore Bullets"));
 		teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2005, 7, 2), LocalDate.of(2005, 7, 2));
 	}
 
 	@Test(expected=TransactionSystemException.class)
-	public void createTeam_MissingRequiredData() {
+	public void create_MissingRequiredData() {
 		Team team = new Team();
 		team.setTeamKey("missing-required-data-key");
 		teamRepository.save(team);
 	}
 
-//	@Test
-//	public void updateTeam() {
-//		teamService.updateTeam(updateMockTeam("st-louis-bomber's", new LocalDate("2009-07-01"), new LocalDate("2010-06-30"), "St. Louis Bombier's"));
-//		Team team = teamService.findTeam("st-louis-bomber's", new LocalDate("2010-05-30"));
-//		Assert.assertEquals("St. Louis Bombier's", team.getFullName());
-//	}
-//
-//	@Test
-//	public void updateTeam_NotFound() {
-//		teamService.updateTeam(updateMockTeam("st-louis-bomb's", new LocalDate("2009-07-01"), new LocalDate("2010-07-01"), "St. Louis Bombier's"));
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void updateTeam_MissingRequiredData() {
-//		Team team = updateMockTeam("st-louis-bomber's", new LocalDate("2009-07-01"), new LocalDate("2010-06-30"), null);
-//		teamService.updateTeam(team);
-//	}
-//
+	@Test
+	public void update_Updated() {
+		teamRepository.save(updateMockTeam(3L, "st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), "St. Louis Bombier's"));
+		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("st-louis-bomber's", LocalDate.of(2010, 5, 30), LocalDate.of(2010, 5, 30));
+		Assert.assertEquals("St. Louis Bombier's", team.getFullName());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void update_MissingRequiredData() {
+		teamRepository.save(updateMockTeam(3L,"st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
+	}
+
 //	@Test
 //	public void deleteTeam_Deleted() {
 //		Team deleteTeam = teamService.deleteTeam("rochester-royals", new LocalDate("2009-06-30"));
@@ -199,20 +194,21 @@ public class TeamRepositoryTest {
 		return team;
 	}
 
-//	private Team updateMockTeam(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
-//		Team team = new Team();
-//		team.setTeamKey(key);
-//		team.setAbbr("SLB");
-//		team.setFromDate(fromDate);
-//		team.setToDate(toDate);
-//		team.setFirstName("St. Louis");
-//		team.setLastName("Bombiers");
-//		team.setConference(Conference.East);
-//		team.setDivision(Division.Southwest);
-//		team.setSiteName("St. Louis Arena");
-//		team.setCity("St. Louis");
-//		team.setState("MO");
-//		team.setFullName(fullName);
-//		return team;
-//	}
+	private Team updateMockTeam(Long id, String key, LocalDate fromDate, LocalDate toDate, String fullName) {
+		Team team = new Team();
+		team.setId(id);
+		team.setTeamKey(key);
+		team.setAbbr("SLB");
+		team.setFromDate(fromDate);
+		team.setToDate(toDate);
+		team.setFirstName("St. Louis");
+		team.setLastName("Bombiers");
+		team.setConference(Conference.East);
+		team.setDivision(Division.Southwest);
+		team.setSiteName("St. Louis Arena");
+		team.setCity("St. Louis");
+		team.setState("MO");
+		team.setFullName(fullName);
+		return team;
+	}
 }

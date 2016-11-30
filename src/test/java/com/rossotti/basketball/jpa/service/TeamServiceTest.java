@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.TransactionSystemException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -120,19 +120,19 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	public void findTeamsByDateRange_Found() {
+	public void findByDateRange_Found() {
 		List<Team> teams = teamService.findByDate(LocalDate.of(2009, 10, 30));
-		Assert.assertEquals(3, teams.size());
+		Assert.assertEquals(4, teams.size());
 	}
 
 	@Test
-	public void findTeamsByDateRange_NotFound() {
+	public void findByDateRange_NotFound() {
 		List<Team> teams = teamService.findByDate(LocalDate.of(1909, 10, 30));
 		Assert.assertEquals(0, teams.size());
 	}
 
 	@Test
-	public void createTeam_Created_AsOfDate() {
+	public void create_Created_AsOfDate() {
 		Team createTeam = teamService.create(createMockTeam("sacramento-hornets", LocalDate.of(2012, 7, 1), LocalDate.of(9999, 12, 31), "Sacramento Hornets"));
 		Team findTeam = teamService.findByTeamKeyAndDate("sacramento-hornets", LocalDate.of(2012, 7, 1));
 		Assert.assertTrue(createTeam.isCreated());
@@ -140,7 +140,7 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	public void createTeam_Created_DateRange() {
+	public void create_Created_DateRange() {
 		Team createTeam = teamService.create(createMockTeam("sacramento-rivercats", LocalDate.of(2006, 7, 1), LocalDate.of(2012, 7, 2), "Sacramento Rivercats"));
 		Team findTeam = teamService.findByTeamKeyAndDate("sacramento-rivercats", LocalDate.of(2006, 7, 1));
 		Assert.assertTrue(createTeam.isCreated());
@@ -148,36 +148,37 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	public void createTeam_OverlappingDates() {
+	public void create_OverlappingDates() {
 		Team createTeam = teamService.create(createMockTeam("cleveland-rebels", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1), "Cleveland Rebels"));
 		Assert.assertTrue(createTeam.isFound());
 	}
 
 	@Test(expected=NullPointerException.class)
-	public void createTeam_MissingRequiredData() {
+	public void create_MissingRequiredData() {
 		Team team = new Team();
 		team.setTeamKey("missing-required-data-key");
 		teamService.create(team);
 	}
 
-//	@Test
-//	public void updateTeam() {
-//		teamService.updateTeam(updateMockTeam("st-louis-bomber's", new LocalDate("2009-07-01"), new LocalDate("2010-06-30"), "St. Louis Bombier's"));
-//		Team team = teamService.findTeam("st-louis-bomber's", new LocalDate("2010-05-30"));
-//		Assert.assertEquals("St. Louis Bombier's", team.getFullName());
-//	}
-//
-//	@Test
-//	public void updateTeam_NotFound() {
-//		teamService.updateTeam(updateMockTeam("st-louis-bomb's", new LocalDate("2009-07-01"), new LocalDate("2010-07-01"), "St. Louis Bombier's"));
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void updateTeam_MissingRequiredData() {
-//		Team team = updateMockTeam("st-louis-bomber's", new LocalDate("2009-07-01"), new LocalDate("2010-06-30"), null);
-//		teamService.updateTeam(team);
-//	}
-//
+	@Test
+	public void update_Updated() {
+		Team updateTeam = teamService.update(updateMockTeam("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), "St. Louis Bombier's"));
+		Team team = teamService.findByTeamKeyAndDate("st-louis-bomber's", LocalDate.of(2010, 5, 30));
+		Assert.assertEquals("St. Louis Bombier's", team.getFullName());
+		Assert.assertTrue(updateTeam.isUpdated());
+	}
+
+	@Test
+	public void update_NotFound() {
+		Team team = teamService.update(updateMockTeam("st-louis-bomb's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 7, 1), "St. Louis Bombier's"));
+		Assert.assertTrue(team.isNotFound());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void update_MissingRequiredData() {
+		teamService.update(updateMockTeam("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
+	}
+
 //	@Test
 //	public void deleteTeam_Deleted() {
 //		Team deleteTeam = teamService.deleteTeam("rochester-royals", new LocalDate("2009-06-30"));
@@ -210,20 +211,20 @@ public class TeamServiceTest {
 		return team;
 	}
 
-//	private Team updateMockTeam(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
-//		Team team = new Team();
-//		team.setTeamKey(key);
-//		team.setAbbr("SLB");
-//		team.setFromDate(fromDate);
-//		team.setToDate(toDate);
-//		team.setFirstName("St. Louis");
-//		team.setLastName("Bombiers");
-//		team.setConference(Conference.East);
-//		team.setDivision(Division.Southwest);
-//		team.setSiteName("St. Louis Arena");
-//		team.setCity("St. Louis");
-//		team.setState("MO");
-//		team.setFullName(fullName);
-//		return team;
-//	}
+	private Team updateMockTeam(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
+		Team team = new Team();
+		team.setTeamKey(key);
+		team.setAbbr("SLB");
+		team.setFromDate(fromDate);
+		team.setToDate(toDate);
+		team.setFirstName("St. Louis");
+		team.setLastName("Bombiers");
+		team.setConference(Conference.East);
+		team.setDivision(Division.Southwest);
+		team.setSiteName("St. Louis Arena");
+		team.setCity("St. Louis");
+		team.setState("MO");
+		team.setFullName(fullName);
+		return team;
+	}
 }
