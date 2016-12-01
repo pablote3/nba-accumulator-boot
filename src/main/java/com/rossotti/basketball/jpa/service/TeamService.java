@@ -10,6 +10,6 @@ import java.util.List;
 public interface TeamService extends CrudService<Team> {
 	List<Team> findByTeamKey(String teamKey);
 	List<Team> findByDate(LocalDate asOfDate);
-	Team findByTeamKeyAndDate(String teamKey, LocalDate date);
-	Team findByLastNameAndDate(String lastName, LocalDate date);
+	Team findByTeamKeyAndAsOfDate(String teamKey, LocalDate asOfDate);
+	Team findByLastNameAndAsOfDate(String lastName, LocalDate asOfDate);
 }

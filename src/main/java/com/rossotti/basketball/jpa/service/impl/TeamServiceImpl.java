@@ -32,7 +32,7 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public Team findByTeamKeyAndDate(String teamKey, LocalDate asOfDate) {
+	public Team findByTeamKeyAndAsOfDate(String teamKey, LocalDate asOfDate) {
 		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter(teamKey, asOfDate.plusDays(1), asOfDate.minusDays(1));
 		if (team != null) {
 			team.setStatusCode(StatusCodeDAO.Found);
@@ -44,7 +44,7 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public Team findByLastNameAndDate(String lastName, LocalDate date) {
+	public Team findByLastNameAndAsOfDate(String lastName, LocalDate date) {
 		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter(lastName, date.plusDays(1), date.minusDays(1));
 		if (team != null) {
 			team.setStatusCode(StatusCodeDAO.Found);
@@ -69,7 +69,7 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public Team create(Team createTeam) {
-		Team team = findByTeamKeyAndDate(createTeam.getTeamKey(), createTeam.getFromDate());
+		Team team = findByTeamKeyAndAsOfDate(createTeam.getTeamKey(), createTeam.getFromDate());
 		if (team.isNotFound()) {
 			teamRepository.save(createTeam);
 			createTeam.setStatusCode(StatusCodeDAO.Created);
@@ -82,7 +82,7 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public Team update(Team updateTeam) {
-		Team team = findByTeamKeyAndDate(updateTeam.getTeamKey(), updateTeam.getFromDate());
+		Team team = findByTeamKeyAndAsOfDate(updateTeam.getTeamKey(), updateTeam.getFromDate());
 		if (team.isFound()) {
 			team.setLastName(updateTeam.getLastName());
 			team.setFirstName(updateTeam.getFirstName());
