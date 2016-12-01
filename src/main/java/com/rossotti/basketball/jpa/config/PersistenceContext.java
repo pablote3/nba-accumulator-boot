@@ -41,6 +41,7 @@ public class PersistenceContext {
 		jpaProperties.put("hibernate.hbm2ddl.auto", env.getRequiredProperty("hibernate.hbm2ddl.auto"));
 		jpaProperties.put("hibernate.ejb.naming_strategy", env.getRequiredProperty("hibernate.ejb.naming_strategy"));
 		jpaProperties.put("hibernate.show_sql", env.getRequiredProperty("hibernate.show_sql"));
+		jpaProperties.put("hibernate.enable_lazy_load_no_trans", true);
 
 		entityManagerFactoryBean.setJpaProperties(jpaProperties);
 		return entityManagerFactoryBean;

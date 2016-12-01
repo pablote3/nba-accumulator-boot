@@ -32,6 +32,7 @@ public class TeamRepositoryTest {
 	public void getById() {
 		Team team = teamRepository.findOne(1L);
 		Assert.assertEquals("Chicago Zephyr's", team.getFullName());
+		Assert.assertEquals(1, team.getStandings().size());
 	}
 
 	@Test
