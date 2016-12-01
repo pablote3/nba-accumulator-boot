@@ -21,27 +21,27 @@ public class StandingServiceImpl implements StandingService {
 		this.standingRepository = standingRepository;
 	}
 
-//	@Override
-//	public List<Standing> findByTeamKey(String teamKey) {
-//		return standingRepository.findByTeamKey(teamKey);
-//	}
-//
-//	@Override
-//	public List<Standing> findByDate(LocalDate asOfDate) {
-//		return standingRepository.findByStandingDate(asOfDate);
-//	}
-//
-//	@Override
-//	public Standing findByTeamKeyAndDate(String teamKey, LocalDate asOfDate) {
-//		Standing standing = standingRepository.findByTeamKeyAndStandingDate(teamKey, asOfDate);
-//		if (standing != null) {
-//			standing.setStatusCode(StatusCodeDAO.Found);
-//		}
-//		else {
-//			standing = new Standing(StatusCodeDAO.NotFound);
-//		}
-//		return standing;
-//	}
+	@Override
+	public List<Standing> findByTeamKey(String teamKey) {
+		return standingRepository.findByTeamKey(teamKey);
+	}
+
+	@Override
+	public List<Standing> findByAsOfDate(LocalDate asOfDate) {
+		return standingRepository.findByStandingDate(asOfDate);
+	}
+
+	@Override
+	public Standing findByTeamKeyAndAsOfDate(String teamKey, LocalDate asOfDate) {
+		Standing standing = standingRepository.findByTeamKeyAndStandingDate(teamKey, asOfDate);
+		if (standing != null) {
+			standing.setStatusCode(StatusCodeDAO.Found);
+		}
+		else {
+			standing = new Standing(StatusCodeDAO.NotFound);
+		}
+		return standing;
+	}
 
 	@Override
 	public List<?> listAll() {

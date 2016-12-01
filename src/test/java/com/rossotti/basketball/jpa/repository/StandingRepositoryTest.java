@@ -30,6 +30,7 @@ public class StandingRepositoryTest {
 	public void getById() {
 		Standing standing = standingRepository.findOne(1L);
 		Assert.assertEquals("1st", standing.getOrdinalRank());
+		Assert.assertEquals("Chicago Zephyr\'s", standing.getTeam().getFullName());
 	}
 
 	@Test
@@ -38,90 +39,48 @@ public class StandingRepositoryTest {
 		Assert.assertEquals(4, standings.size());
 	}
 
-//	@Test
-//	public void findByKey_Found_FromDate() {
-//		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-globetrotter's", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
-//		Assert.assertEquals("Harlem Globetrotter's", team.getFullName());
-//	}
-//
-//	@Test
-//	public void findByKey_Found_ToDate() {
-//		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-globetrotter's", LocalDate.of(2010, 6, 29), LocalDate.of(2010, 6, 29));
-//		Assert.assertEquals("Harlem Globetrotter's", team.getFullName());
-//	}
-//
-//	@Test
-//	public void findByKey_NotFound_TeamKey() {
-//		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-hoopers", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
-//		Assert.assertNull(team);
-//	}
-//
-//	@Test
-//	public void findByKey_NotFound_BeforeAsOfDate() {
-//		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-globetrotter's", LocalDate.of(2009, 6, 30), LocalDate.of(2009, 6, 30));
-//		Assert.assertNull(team);
-//	}
-//
-//	@Test
-//	public void findByKey_NotFound_AfterAsOfDate() {
-//		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-globetrotter's", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1));
-//		Assert.assertNull(team);
-//	}
-//
-//	@Test
-//	public void findByLastName_Found_FromDate() {
-//		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter("Globetrotter's", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
-//		Assert.assertEquals("Harlem Globetrotter's", team.getFullName());
-//	}
-//
-//	@Test
-//	public void findByLastName_Found_ToDate() {
-//		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter("Globetrotter's", LocalDate.of(2010, 6, 29), LocalDate.of(2010, 6, 29));
-//		Assert.assertEquals("Harlem Globetrotter's", team.getFullName());
-//	}
-//
-//	@Test
-//	public void findByLastName_NotFound_TeamKey() {
-//		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter("Globetreker's", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
-//		Assert.assertNull(team);
-//	}
-//
-//	@Test
-//	public void findByLastName_NotFound_BeforeAsOfDate() {
-//		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter("Globetrotter's", LocalDate.of(2009, 6, 30), LocalDate.of(2009, 6, 30));
-//		Assert.assertNull(team);
-//	}
-//
-//	@Test
-//	public void findByLastName_NotFound_AfterAsOfDate() {
-//		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter("Globetrotter's", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1));
-//		Assert.assertNull(team);
-//	}
-//
-//	@Test
-//	public void findByKey_Found() {
-//		List<Team> teams = teamRepository.findByTeamKey("st-louis-bomber's");
-//		Assert.assertEquals(2, teams.size());
-//	}
-//
-//	@Test
-//	public void findByKey_NotFound() {
-//		List<Team> teams = teamRepository.findByTeamKey("st-louis-bombber's");
-//		Assert.assertEquals(0, teams.size());
-//	}
-//
-//	@Test
-//	public void findByDate_Found() {
-//		List<Team> teams = teamRepository.findByFromDateBeforeAndToDateAfter(LocalDate.of(2009, 10, 30), LocalDate.of(2009, 10, 30));
-//		Assert.assertEquals(3, teams.size());
-//	}
-//
-//	@Test
-//	public void findByDate_NotFound() {
-//		List<Team> teams = teamRepository.findByFromDateBeforeAndToDateAfter(LocalDate.of(1909, 10, 30), LocalDate.of(1909, 10, 30));
-//		Assert.assertEquals(0, teams.size());
-//	}
-//
+	@Test
+	public void findByTeamKeyAsOfDate_Found() {
+		Standing standing = standingRepository.findByTeamKeyAndStandingDate("chicago-zephyr's", LocalDate.of(2015, 10, 30));
+		Assert.assertEquals("1st", standing.getOrdinalRank());
+	}
+
+	@Test
+	public void findByTeamKeyAsOfDate_NotFound_TeamKey() {
+		Standing standing = standingRepository.findByTeamKeyAndStandingDate("chicago-zephyr", LocalDate.of(2015, 10, 30));
+		Assert.assertNull(standing);
+	}
+
+	@Test
+	public void findByTeamKeyAsOfDate_NotFound_AsOfDate() {
+		Standing standing = standingRepository.findByTeamKeyAndStandingDate("chicago-zephyr's", LocalDate.of(2015, 10, 29));
+		Assert.assertNull(standing);
+	}
+
+	@Test
+	public void findByAsOfDate_Found() {
+		List<Standing> standings = standingRepository.findByStandingDate(LocalDate.of(2015, 10, 30));
+		Assert.assertEquals(2, standings.size());
+	}
+
+	@Test
+	public void findByAsOfDate_NotFound() {
+		List<Standing> standings = standingRepository.findByStandingDate(LocalDate.of(2015, 10, 29));
+		Assert.assertEquals(0, standings.size());
+	}
+
+	@Test
+	public void findByTeamKey_Found() {
+		List<Standing> standings = standingRepository.findByTeamKey("st-louis-bomber's");
+		Assert.assertEquals(2, standings.size());
+	}
+
+	@Test
+	public void findByTeamKey_NotFound() {
+		List<Standing> standings = standingRepository.findByTeamKey("st-louis-bomber");
+		Assert.assertEquals(0, standings.size());
+	}
+
 //	@Test
 //	public void create_Created_AsOfDate() {
 //		teamRepository.save(createMockTeam("seattle-supersonics", LocalDate.of(2012, 7, 1), LocalDate.of(9999, 12, 31), "Seattle Supersonics"));
