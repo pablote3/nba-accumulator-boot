@@ -1,6 +1,7 @@
 package com.rossotti.basketball.jpa.repository;
 
 import com.rossotti.basketball.jpa.model.Standing;
+import com.rossotti.basketball.jpa.model.Team;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,33 +82,25 @@ public class StandingRepositoryTest {
 		Assert.assertEquals(0, standings.size());
 	}
 
-//	@Test
-//	public void create_Created_AsOfDate() {
-//		teamRepository.save(createMockTeam("seattle-supersonics", LocalDate.of(2012, 7, 1), LocalDate.of(9999, 12, 31), "Seattle Supersonics"));
-//		Team findTeam = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("seattle-supersonics", LocalDate.of(2012, 7, 2), LocalDate.of(2012, 7, 2));
-//		Assert.assertEquals("Seattle Supersonics", findTeam.getFullName());
-//	}
-//
-//	@Test
-//	public void create_Created_DateRange() {
-//		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2006, 7, 1), LocalDate.of(2006, 7, 3), "Baltimore Bullets2"));
-//		Team findTeam = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2006, 7, 2), LocalDate.of(2006, 7, 2));
-//		Assert.assertEquals("Baltimore Bullets2", findTeam.getFullName());
-//	}
-//
-//	@Test(expected=IncorrectResultSizeDataAccessException.class)
-//	public void create_OverlappingDates() {
-//		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2005, 7, 1), LocalDate.of(2005, 7, 3), "Baltimore Bullets"));
-//		teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2005, 7, 2), LocalDate.of(2005, 7, 2));
-//	}
-//
-//	@Test(expected=TransactionSystemException.class)
-//	public void create_MissingRequiredData() {
-//		Team team = new Team();
-//		team.setTeamKey("missing-required-data-key");
-//		teamRepository.save(team);
-//	}
-//
+	@Test
+	public void create_Created() {
+		standingRepository.save(createMockStanding(20L, LocalDate.of(2012, 7, 1)));
+		Standing findStanding = standingRepository.findByTeamKeyAndStandingDate("chicago-bulls", LocalDate.of(2012, 7, 1));
+		Assert.assertTrue(findStanding.getConferenceWins().equals((short)7));
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void create_Existing() {
+		standingRepository.save(createMockStanding(1L, LocalDate.of(2015, 10, 30)));
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void create_MissingRequiredData() {
+		Standing standing = new Standing();
+		standing.setStandingDate(LocalDate.of(2012, 7, 1));
+		standingRepository.save(standing);
+	}
+
 //	@Test
 //	public void update_Updated() {
 //		teamRepository.save(updateMockTeam(3L, "st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), "St. Louis Bombier's"));
@@ -131,24 +124,48 @@ public class StandingRepositoryTest {
 //	public void delete_NotFound() {
 //		teamRepository.delete(101L);
 //	}
-//
-//	private Team createMockTeam(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
-//		Team team = new Team();
-//		team.setTeamKey(key);
-//		team.setFromDate(fromDate);
-//		team.setToDate(toDate);
-//		team.setAbbr("SEA");
-//		team.setFirstName("Seattle");
-//		team.setLastName("Supersonics");
-//		team.setConference(Conference.West);
-//		team.setDivision(Division.Pacific);
-//		team.setSiteName("Key Arena");
-//		team.setCity("Seattle");
-//		team.setState("WA");
-//		team.setFullName(fullName);
-//		return team;
-//	}
-//
+
+	private Standing createMockStanding(Long id, LocalDate asOfDate) {
+		Standing standing = new Standing();
+		standing.setTeam(getMockTeam(id));
+		standing.setStandingDate(asOfDate);
+		standing.setRank((short)3);
+		standing.setOrdinalRank("3rd");
+		standing.setGamesWon((short)15);
+		standing.setGamesLost((short)25);
+		standing.setStreak("L5");
+		standing.setStreakType("loss");
+		standing.setStreakTotal((short)5);
+		standing.setGamesBack((float)3.5);
+		standing.setPointsFor((short)1895);
+		standing.setPointsAgainst((short)2116);
+		standing.setHomeWins((short)10);
+		standing.setHomeLosses((short)10);
+		standing.setAwayWins((short)5);
+		standing.setAwayLosses((short)15);
+		standing.setConferenceWins((short)7);
+		standing.setConferenceLosses((short)8);
+		standing.setLastFive("0-5");
+		standing.setLastTen("3-7");
+		standing.setGamesPlayed((short)40);
+		standing.setPointsScoredPerGame((float)95.5);
+		standing.setPointsAllowedPerGame((float)102.5);
+		standing.setWinPercentage((float)0.375);
+		standing.setPointDifferential((short)221);
+		standing.setPointDifferentialPerGame((float)7.0);
+		standing.setOpptGamesWon(4);
+		standing.setOpptGamesPlayed(5);
+		standing.setOpptOpptGamesWon(15);
+		standing.setOpptOpptGamesPlayed(20);
+		return standing;
+	}
+
+	private Team getMockTeam(Long id) {
+		Team team = new Team();
+		team.setId(id);
+		return team;
+	}
+
 //	private Team updateMockTeam(Long id, String key, LocalDate fromDate, LocalDate toDate, String fullName) {
 //		Team team = new Team();
 //		team.setId(id);

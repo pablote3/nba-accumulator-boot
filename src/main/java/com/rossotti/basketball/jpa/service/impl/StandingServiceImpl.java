@@ -57,16 +57,15 @@ public class StandingServiceImpl implements StandingService {
 
 	@Override
 	public Standing create(Standing createStanding) {
-		return null;
-//		Standing standing = findByTeamKeyAndDate(createStanding.getTeam().getTeamKey(), createStanding.getStandingDate());
-//		if (standing.isNotFound()) {
-//			standingRepository.save(createStanding);
-//			createStanding.setStatusCode(StatusCodeDAO.Created);
-//			return createStanding;
-//		}
-//		else {
-//			return standing;
-//		}
+		Standing standing = findByTeamKeyAndAsOfDate(createStanding.getTeam().getTeamKey(), createStanding.getStandingDate());
+		if (standing.isNotFound()) {
+			standingRepository.save(createStanding);
+			createStanding.setStatusCode(StatusCodeDAO.Created);
+			return createStanding;
+		}
+		else {
+			return standing;
+		}
 	}
 
 	@Override
