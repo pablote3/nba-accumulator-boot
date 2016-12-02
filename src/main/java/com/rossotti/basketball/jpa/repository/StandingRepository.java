@@ -14,7 +14,7 @@ public interface StandingRepository extends Repository<Standing, Long> {
 
 	Standing findOne(Long id);
 
-	Standing save(Standing team);
+	Standing save(Standing standing);
 
 	void delete(Long id);
 

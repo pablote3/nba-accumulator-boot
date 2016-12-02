@@ -70,41 +70,40 @@ public class StandingServiceImpl implements StandingService {
 
 	@Override
 	public Standing update(Standing updateStanding) {
-		return null;
-//		Standing standing = findByTeamKeyAndDate(updateStanding.getTeam().getTeamKey(), updateStanding.getStandingDate());
-//		if (standing.isFound()) {
-//			standing.setRank(updateStanding.getRank());
-//			standing.setOrdinalRank(updateStanding.getOrdinalRank());
-//			standing.setGamesWon(updateStanding.getGamesWon());
-//			standing.setGamesLost(updateStanding.getGamesLost());
-//			standing.setStreak(updateStanding.getStreak());
-//			standing.setStreakType(updateStanding.getStreakType());
-//			standing.setStreakTotal(updateStanding.getStreakTotal());
-//			standing.setGamesBack(updateStanding.getGamesBack());
-//			standing.setPointsFor(updateStanding.getPointsFor());
-//			standing.setPointsAgainst(updateStanding.getPointsAgainst());
-//			standing.setHomeWins(updateStanding.getHomeWins());
-//			standing.setHomeLosses(updateStanding.getHomeLosses());
-//			standing.setAwayWins(updateStanding.getAwayWins());
-//			standing.setAwayLosses(updateStanding.getAwayLosses());
-//			standing.setConferenceWins(updateStanding.getConferenceWins());
-//			standing.setConferenceLosses(updateStanding.getConferenceLosses());
-//			standing.setLastFive(updateStanding.getLastFive());
-//			standing.setLastTen(updateStanding.getLastTen());
-//			standing.setGamesPlayed(updateStanding.getGamesPlayed());
-//			standing.setPointsScoredPerGame(updateStanding.getPointsScoredPerGame());
-//			standing.setPointsAllowedPerGame(updateStanding.getPointsAllowedPerGame());
-//			standing.setWinPercentage(updateStanding.getWinPercentage());
-//			standing.setPointDifferential(updateStanding.getPointDifferential());
-//			standing.setPointDifferentialPerGame(updateStanding.getPointDifferentialPerGame());
-//			standing.setOpptGamesWon(updateStanding.getOpptGamesWon());
-//			standing.setOpptGamesPlayed(updateStanding.getOpptGamesPlayed());
-//			standing.setOpptOpptGamesWon(updateStanding.getOpptOpptGamesWon());
-//			standing.setOpptOpptGamesPlayed(updateStanding.getOpptOpptGamesPlayed());
-//			standingRepository.save(standing);
-//			standing.setStatusCode(StatusCodeDAO.Updated);
-//		}
-//		return standing;
+		Standing standing = findByTeamKeyAndAsOfDate(updateStanding.getTeam().getTeamKey(), updateStanding.getStandingDate());
+		if (standing.isFound()) {
+			standing.setRank(updateStanding.getRank());
+			standing.setOrdinalRank(updateStanding.getOrdinalRank());
+			standing.setGamesWon(updateStanding.getGamesWon());
+			standing.setGamesLost(updateStanding.getGamesLost());
+			standing.setStreak(updateStanding.getStreak());
+			standing.setStreakType(updateStanding.getStreakType());
+			standing.setStreakTotal(updateStanding.getStreakTotal());
+			standing.setGamesBack(updateStanding.getGamesBack());
+			standing.setPointsFor(updateStanding.getPointsFor());
+			standing.setPointsAgainst(updateStanding.getPointsAgainst());
+			standing.setHomeWins(updateStanding.getHomeWins());
+			standing.setHomeLosses(updateStanding.getHomeLosses());
+			standing.setAwayWins(updateStanding.getAwayWins());
+			standing.setAwayLosses(updateStanding.getAwayLosses());
+			standing.setConferenceWins(updateStanding.getConferenceWins());
+			standing.setConferenceLosses(updateStanding.getConferenceLosses());
+			standing.setLastFive(updateStanding.getLastFive());
+			standing.setLastTen(updateStanding.getLastTen());
+			standing.setGamesPlayed(updateStanding.getGamesPlayed());
+			standing.setPointsScoredPerGame(updateStanding.getPointsScoredPerGame());
+			standing.setPointsAllowedPerGame(updateStanding.getPointsAllowedPerGame());
+			standing.setWinPercentage(updateStanding.getWinPercentage());
+			standing.setPointDifferential(updateStanding.getPointDifferential());
+			standing.setPointDifferentialPerGame(updateStanding.getPointDifferentialPerGame());
+			standing.setOpptGamesWon(updateStanding.getOpptGamesWon());
+			standing.setOpptGamesPlayed(updateStanding.getOpptGamesPlayed());
+			standing.setOpptOpptGamesWon(updateStanding.getOpptOpptGamesWon());
+			standing.setOpptOpptGamesPlayed(updateStanding.getOpptOpptGamesPlayed());
+			standingRepository.save(standing);
+			standing.setStatusCode(StatusCodeDAO.Updated);
+		}
+		return standing;
 	}
 
 	@Override
