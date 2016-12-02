@@ -165,7 +165,7 @@ public class TeamServiceTest {
 
 	@Test
 	public void update_Updated() {
-		Team updateTeam = teamService.update(updateMockTeam("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), "St. Louis Bombier's"));
+		Team updateTeam = teamService.update(createMockTeam("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), "St. Louis Bombier's"));
 		Team team = teamService.findByTeamKeyAndAsOfDate("st-louis-bomber's", LocalDate.of(2010, 5, 30));
 		Assert.assertEquals("St. Louis Bombier's", team.getFullName());
 		Assert.assertTrue(updateTeam.isUpdated());
@@ -173,13 +173,13 @@ public class TeamServiceTest {
 
 	@Test
 	public void update_NotFound() {
-		Team team = teamService.update(updateMockTeam("st-louis-bomb's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 7, 1), "St. Louis Bombier's"));
+		Team team = teamService.update(createMockTeam("st-louis-bomb's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 7, 1), "St. Louis Bombier's"));
 		Assert.assertTrue(team.isNotFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void update_MissingRequiredData() {
-		teamService.update(updateMockTeam("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
+		teamService.update(createMockTeam("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
 	}
 
 	@Test
@@ -209,23 +209,6 @@ public class TeamServiceTest {
 		team.setSiteName("Key Arena");
 		team.setCity("Seattle");
 		team.setState("WA");
-		team.setFullName(fullName);
-		return team;
-	}
-
-	private Team updateMockTeam(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
-		Team team = new Team();
-		team.setTeamKey(key);
-		team.setAbbr("SLB");
-		team.setFromDate(fromDate);
-		team.setToDate(toDate);
-		team.setFirstName("St. Louis");
-		team.setLastName("Bombiers");
-		team.setConference(Conference.East);
-		team.setDivision(Division.Southwest);
-		team.setSiteName("St. Louis Arena");
-		team.setCity("St. Louis");
-		team.setState("MO");
 		team.setFullName(fullName);
 		return team;
 	}

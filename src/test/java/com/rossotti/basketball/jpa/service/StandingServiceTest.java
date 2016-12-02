@@ -82,7 +82,7 @@ public class StandingServiceTest {
 
 	@Test
 	public void create_Created() {
-		Standing createStanding = standingService.create(createMockStanding(21L, "utah-jazz", LocalDate.of(2012, 7, 1)));
+		Standing createStanding = standingService.create(createMockStanding(21L, "utah-jazz", LocalDate.of(2012, 7, 1), "10th"));
 		Standing findStanding = standingService.findByTeamKeyAndAsOfDate("utah-jazz", LocalDate.of(2012, 7, 1));
 		Assert.assertTrue(createStanding.isCreated());
 		Assert.assertTrue(findStanding.getConferenceWins().equals((short)7));
@@ -90,7 +90,7 @@ public class StandingServiceTest {
 
 	@Test
 	public void create_Existing() {
-		Standing createStanding = standingService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2015, 10, 30)));
+		Standing createStanding = standingService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2015, 10, 30), "10th"));
 		Assert.assertTrue(createStanding.isFound());
 	}
 
@@ -106,7 +106,7 @@ public class StandingServiceTest {
 
 	@Test
 	public void update_Updated() {
-		Standing updateStanding = standingService.update(updateMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), "10th"));
+		Standing updateStanding = standingService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), "10th"));
 		Standing standing = standingService.findByTeamKeyAndAsOfDate("st-louis-bomber's", LocalDate.of(2015, 10, 31));
 		Assert.assertEquals("10th", standing.getOrdinalRank());
 		Assert.assertTrue(updateStanding.isUpdated());
@@ -114,13 +114,13 @@ public class StandingServiceTest {
 
 	@Test
 	public void update_NotFound() {
-		Standing standing = standingService.update(updateMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 11, 11), "10th"));
+		Standing standing = standingService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 11, 11), "10th"));
 		Assert.assertTrue(standing.isNotFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void update_MissingRequiredData() {
-		standingService.update(updateMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), null));
+		standingService.update(createMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), null));
 	}
 
 	@Test
@@ -137,53 +137,11 @@ public class StandingServiceTest {
 		Assert.assertTrue(deleteStanding.isNotFound());
 	}
 
-	private Standing createMockStanding(Long teamId, String teamKey, LocalDate asOfDate) {
+	private Standing createMockStanding(Long teamId, String teamKey, LocalDate asOfDate, String ordinalRank) {
 		Standing standing = new Standing();
-		standing.setTeam(getMockTeam(teamId, teamKey));
+		standing.setTeam(createMockTeam(teamId, teamKey));
 		standing.setStandingDate(asOfDate);
 		standing.setRank((short)3);
-		standing.setOrdinalRank("3rd");
-		standing.setGamesWon((short)15);
-		standing.setGamesLost((short)25);
-		standing.setStreak("L5");
-		standing.setStreakType("loss");
-		standing.setStreakTotal((short)5);
-		standing.setGamesBack((float)3.5);
-		standing.setPointsFor((short)1895);
-		standing.setPointsAgainst((short)2116);
-		standing.setHomeWins((short)10);
-		standing.setHomeLosses((short)10);
-		standing.setAwayWins((short)5);
-		standing.setAwayLosses((short)15);
-		standing.setConferenceWins((short)7);
-		standing.setConferenceLosses((short)8);
-		standing.setLastFive("0-5");
-		standing.setLastTen("3-7");
-		standing.setGamesPlayed((short)40);
-		standing.setPointsScoredPerGame((float)95.5);
-		standing.setPointsAllowedPerGame((float)102.5);
-		standing.setWinPercentage((float)0.375);
-		standing.setPointDifferential((short)221);
-		standing.setPointDifferentialPerGame((float)7.0);
-		standing.setOpptGamesWon(4);
-		standing.setOpptGamesPlayed(5);
-		standing.setOpptOpptGamesWon(15);
-		standing.setOpptOpptGamesPlayed(20);
-		return standing;
-	}
-
-	private Team getMockTeam(Long id, String teamKey) {
-		Team team = new Team();
-		team.setId(id);
-		team.setTeamKey(teamKey);
-		return team;
-	}
-
-	private Standing updateMockStanding(Long teamId, String teamKey, LocalDate asOfDate, String ordinalRank) {
-		Standing standing = new Standing();
-		standing.setTeam(getMockTeam(teamId, teamKey));
-		standing.setStandingDate(asOfDate);
-		standing.setRank((short)10);
 		standing.setOrdinalRank(ordinalRank);
 		standing.setGamesWon((short)15);
 		standing.setGamesLost((short)25);
@@ -212,5 +170,12 @@ public class StandingServiceTest {
 		standing.setOpptOpptGamesWon(15);
 		standing.setOpptOpptGamesPlayed(20);
 		return standing;
+	}
+
+	private Team createMockTeam(Long id, String teamKey) {
+		Team team = new Team();
+		team.setId(id);
+		team.setTeamKey(teamKey);
+		return team;
 	}
 }

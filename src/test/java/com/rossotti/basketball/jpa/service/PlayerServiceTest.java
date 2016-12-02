@@ -153,16 +153,4 @@ public class PlayerServiceTest {
 		player.setBirthplace("Monroe, Louisiana, USA");
 		return player;
 	}
-
-	private Player updateMockPlayer(String lastName, String firstName, LocalDate birthdate, String displayName) {
-		Player player = new Player();
-		player.setLastName(lastName);
-		player.setFirstName(firstName);
-		player.setBirthdate(birthdate);
-		player.setDisplayName(displayName);
-		player.setHeight((short)79);
-		player.setWeight((short)215);
-		player.setBirthplace("Monroe, Louisiana, USA");
-		return player;
-	}
 }

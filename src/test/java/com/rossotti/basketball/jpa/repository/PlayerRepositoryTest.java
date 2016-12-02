@@ -107,7 +107,7 @@ public class PlayerRepositoryTest {
 //		Player player = playerRepository.findByPlayerKeyAndFromDateBeforeAndToDateAfter("st-louis-bomber's", LocalDate.of(2010, 5, 30), LocalDate.of(2010, 5, 30));
 //		Assert.assertEquals("St. Louis Bombier's", player.getFullName());
 //	}
-//
+
 //	@Test(expected=DataIntegrityViolationException.class)
 //	public void update_MissingRequiredData() {
 //		playerRepository.save(updateMockPlayer(3L,"st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
@@ -137,15 +137,9 @@ public class PlayerRepositoryTest {
 		return player;
 	}
 
-	private Player updateMockPlayer(String lastName, String firstName, LocalDate birthdate, String displayName) {
-		Player player = new Player();
-		player.setLastName(lastName);
-		player.setFirstName(firstName);
-		player.setBirthdate(birthdate);
-		player.setDisplayName(displayName);
-		player.setHeight((short)79);
-		player.setWeight((short)215);
-		player.setBirthplace("Monroe, Louisiana, USA");
+	private Player updateMockPlayer(Long id, String lastName, String firstName, LocalDate birthdate, String displayName) {
+		Player player = createMockPlayer(lastName, firstName, birthdate, displayName);
+		player.setId(id);
 		return player;
 	}
 }

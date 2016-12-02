@@ -145,10 +145,12 @@ public class TeamRepositoryTest {
 		teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2005, 7, 2), LocalDate.of(2005, 7, 2));
 	}
 
-	@Test(expected=TransactionSystemException.class)
+	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
 		Team team = new Team();
 		team.setTeamKey("missing-required-data-key");
+		team.setFromDate(LocalDate.of(2009, 7, 1));
+		team.setToDate(LocalDate.of(2009, 7, 1));
 		teamRepository.save(team);
 	}
 
@@ -194,20 +196,8 @@ public class TeamRepositoryTest {
 	}
 
 	private Team updateMockTeam(Long id, String key, LocalDate fromDate, LocalDate toDate, String fullName) {
-		Team team = new Team();
+		Team team = createMockTeam(key, fromDate, toDate, fullName);
 		team.setId(id);
-		team.setTeamKey(key);
-		team.setAbbr("SLB");
-		team.setFromDate(fromDate);
-		team.setToDate(toDate);
-		team.setFirstName("St. Louis");
-		team.setLastName("Bombiers");
-		team.setConference(Conference.East);
-		team.setDivision(Division.Southwest);
-		team.setSiteName("St. Louis Arena");
-		team.setCity("St. Louis");
-		team.setState("MO");
-		team.setFullName(fullName);
 		return team;
 	}
 }
