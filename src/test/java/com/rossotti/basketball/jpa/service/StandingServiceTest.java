@@ -115,24 +115,24 @@ public class StandingServiceTest {
 		Assert.assertTrue(standing.isNotFound());
 	}
 
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void update_MissingRequiredData() {
-//		teamService.update(updateMockTeam("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
-//	}
-//
-//	@Test
-//	public void delete_Deleted() {
-//		Team deleteTeam = teamService.delete(7L);
-//		Team findTeam = teamService.getById(7L);
-//		Assert.assertNull(findTeam);
-//		Assert.assertTrue(deleteTeam.isDeleted());
-//	}
-//
-//	@Test
-//	public void delete_NotFound() {
-//		Team deleteTeam = teamService.delete(101L);
-//		Assert.assertTrue(deleteTeam.isNotFound());
-//	}
+	@Test(expected=DataIntegrityViolationException.class)
+	public void update_MissingRequiredData() {
+		standingService.update(updateMockStanding(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), null));
+	}
+
+	@Test
+	public void delete_Deleted() {
+		Standing deleteStanding = standingService.delete(6L);
+		Standing findStanding = standingService.getById(6L);
+		Assert.assertNull(findStanding);
+		Assert.assertTrue(deleteStanding.isDeleted());
+	}
+
+	@Test
+	public void delete_NotFound() {
+		Standing deleteStanding = standingService.delete(101L);
+		Assert.assertTrue(deleteStanding.isNotFound());
+	}
 
 	private Standing createMockStanding(Long teamId, String teamKey, LocalDate asOfDate) {
 		Standing standing = new Standing();

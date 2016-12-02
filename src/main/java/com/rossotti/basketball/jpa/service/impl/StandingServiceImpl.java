@@ -108,15 +108,14 @@ public class StandingServiceImpl implements StandingService {
 
 	@Override
 	public Standing delete(Long id) {
-		return null;
-//		Standing findStanding = getById(id);
-//		if (findStanding != null && findStanding.isFound()) {
-//			standingRepository.delete(findStanding.getId());
-//			findStanding.setStatusCode(StatusCodeDAO.Deleted);
-//			return findStanding;
-//		}
-//		else {
-//			return new Standing(StatusCodeDAO.NotFound);
-//		}
+		Standing findStanding = getById(id);
+		if (findStanding != null && findStanding.isFound()) {
+			standingRepository.delete(findStanding.getId());
+			findStanding.setStatusCode(StatusCodeDAO.Deleted);
+			return findStanding;
+		}
+		else {
+			return new Standing(StatusCodeDAO.NotFound);
+		}
 	}
 }

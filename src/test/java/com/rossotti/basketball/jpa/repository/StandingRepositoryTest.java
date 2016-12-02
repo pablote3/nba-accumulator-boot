@@ -37,7 +37,7 @@ public class StandingRepositoryTest {
 	@Test
 	public void findAll() {
 		List<Standing> standings = (List<Standing>)standingRepository.findAll();
-		Assert.assertEquals(4, standings.size());
+		Assert.assertEquals(6, standings.size());
 	}
 
 	@Test
@@ -113,17 +113,17 @@ public class StandingRepositoryTest {
 		standingRepository.save(updateMockStanding(4L, 4L, LocalDate.of(2015, 10, 31), null));
 	}
 
-//	@Test
-//	public void delete_Deleted() {
-//		teamRepository.delete(10L);
-//		Team findTeam = teamRepository.findOne(10L);
-//		Assert.assertNull(findTeam);
-//	}
-//
-//	@Test(expected = EmptyResultDataAccessException.class)
-//	public void delete_NotFound() {
-//		teamRepository.delete(101L);
-//	}
+	@Test
+	public void delete_Deleted() {
+		standingRepository.delete(5L);
+		Standing standing = standingRepository.findOne(5L);
+		Assert.assertNull(standing);
+	}
+
+	@Test(expected = EmptyResultDataAccessException.class)
+	public void delete_NotFound() {
+		standingRepository.delete(101L);
+	}
 
 	private Standing createMockStanding(Long id, LocalDate asOfDate) {
 		Standing standing = new Standing();
