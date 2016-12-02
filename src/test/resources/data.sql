@@ -11,6 +11,22 @@ insert into team VALUES(10, 'ROC', 'Rochester', 'East', 'Atlantic', 'Rochester',
 insert into team VALUES(20, 'CHI', 'Chicago', 'East', 'Central', 'Chicago', '2012-07-01', 'Chicago Bulls', 'Bulls', 'United Center', 'IL', 'chicago-bulls', '9999-12-31');
 insert into team VALUES(21, 'UTA', 'Salt Lake City', 'West', 'Northwest', 'Utah', '2012-07-01', 'Utah Jazz', 'Jazz', 'Energy Solutions Arena', 'UT', 'utah-jazz', '9999-12-31');
 
+insert into player VALUES(1, '2002-02-20', 'Sacramento, CA, USA', 'Luke Puzdrakiew''icz', 'Luke', 78, 'Puzdrakiew''icz', 175);
+insert into player VALUES(2, '1966-06-02', 'Sacramento, CA, USA', 'Thad Puzdrakiewicz', 'Thad', 81, 'Puzdrakiewicz', 210);
+insert into player VALUES(3, '2000-03-13', 'Sacramento, CA, USA', 'Thad Puzdrakiewicz', 'Thad', 79, 'Puzdrakiewicz', 180);
+insert into player VALUES(4, '1969-09-08', 'Sacramento, CA, USA', 'Michelle Puzdrakiewicz', 'Michelle', 75, 'Puzdrakiewicz', 170);
+insert into player VALUES(5, '1966-06-10', 'Sacramento, CA, USA', 'Junior Puzdrakiewicz', 'Junior', 80, 'Puzdrakiewicz', 240);
+insert into player VALUES(6, '1966-06-07', 'Sacramento, CA, USA', 'Tuey Puzdrakiewicz', 'Tuey', 80, 'Puzdrakiewicz', 240);
+insert into player VALUES(10, '1990-03-04', 'Saginaw, Michigan, USA', 'Andre Drummond', 'Andre', 79, 'Drummond', 230);
+insert into player VALUES(11, '1989-09-02', 'Philadelphia, Pennsylvania, USA', 'Marcus Morris', 'Marcus', 81, 'Morris', 235);
+insert into player VALUES(12, '1993-02-18', 'Thomaston, Georgia, USA', 'Kentavious Caldwell-Pope', 'Kentavious', 78, 'Caldwell-Pope', 204);
+insert into player VALUES(13, '1990-04-16', 'Pordenone, Italy', 'Reggie Jackson', 'Reggie', 75, 'Jackson', 208);
+insert into player VALUES(14, '1992-05-06', 'Utėnai, Lithuania', 'Jonas Valančiūnas', 'Jonas', 79, 'Valančiūnas', 180);
+insert into player VALUES(20, '1992-06-26', 'Saint-Quentin, France', 'Rudy Gobert', 'Rudy', 85, 'Gobert', 220);
+insert into player VALUES(21, '1990-03-23', 'Brownsburg, Indiana, USA', 'Gordon Hayward', 'Gordon', 81, 'Hayward', 207);
+insert into player VALUES(22, '1989-09-14', 'Houston, Texas, USA', 'Jimmy Butler', 'Jimmy', 79, 'Butler', 220);
+insert into player VALUES(23, '1988-10-04', 'Chicago, Illinois, USA', 'Derrick Rose', 'Derrick', 75, 'Rose', 190);
+
 insert into standing (id, teamId, standingDate, rank, ordinalRank, gamesWon, gamesLost, streak, streakType, streakTotal, gamesBack, pointsFor, pointsAgainst, homeWins, homeLosses,
 awayWins, awayLosses, conferenceWins, conferenceLosses, lastFive, lastTen, gamesPlayed, pointsScoredPerGame, PointsAllowedPerGame, WinPercentage, PointDifferential, pointDifferentialPerGame)
 VALUES(1, 1, '2015-10-30', 1, '1st', 1, 0, 1, 'win', 1, 0, 114, 98, 1, 0, 0, 0, 0, 0, '1-0', '1-0', 1, 114, 98, 1.00, 16, 16);

@@ -94,9 +94,12 @@ public class StandingServiceTest {
 		Assert.assertTrue(createStanding.isFound());
 	}
 
-	@Test(expected=NullPointerException.class)
+	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
 		Standing standing = new Standing();
+		Team team = new Team();
+		team.setId(30L);
+		standing.setTeam(team);
 		standing.setStandingDate(LocalDate.of(2012, 7, 1));
 		standingService.create(standing);
 	}

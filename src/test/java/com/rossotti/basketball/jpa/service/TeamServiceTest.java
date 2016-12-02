@@ -154,10 +154,12 @@ public class TeamServiceTest {
 		Assert.assertTrue(createTeam.isFound());
 	}
 
-	@Test(expected=NullPointerException.class)
+	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
 		Team team = new Team();
 		team.setTeamKey("missing-required-data-key");
+		team.setFromDate(LocalDate.of(2009, 7, 1));
+		team.setToDate(LocalDate.of(2009, 7, 1));
 		teamService.create(team);
 	}
 

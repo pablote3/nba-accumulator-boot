@@ -125,9 +125,9 @@ public class StandingRepositoryTest {
 		standingRepository.delete(101L);
 	}
 
-	private Standing createMockStanding(Long id, LocalDate asOfDate) {
+	private Standing createMockStanding(Long teamId, LocalDate asOfDate) {
 		Standing standing = new Standing();
-		standing.setTeam(getMockTeam(id));
+		standing.setTeam(getMockTeam(teamId));
 		standing.setStandingDate(asOfDate);
 		standing.setRank((short)3);
 		standing.setOrdinalRank("3rd");
