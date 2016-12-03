@@ -101,29 +101,29 @@ public class PlayerRepositoryTest {
 		playerRepository.save(player);
 	}
 
-//	@Test
-//	public void update_Updated() {
-//		playerRepository.save(updateMockPlayer(3L, "st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), "St. Louis Bombier's"));
-//		Player player = playerRepository.findByPlayerKeyAndFromDateBeforeAndToDateAfter("st-louis-bomber's", LocalDate.of(2010, 5, 30), LocalDate.of(2010, 5, 30));
-//		Assert.assertEquals("St. Louis Bombier's", player.getFullName());
-//	}
+	@Test
+	public void update_Updated() {
+		playerRepository.save(updateMockPlayer(2L, "Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2), "Thady Puzdrakiewicz"));
+		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2));
+		Assert.assertEquals("Thady Puzdrakiewicz", player.getDisplayName());
+	}
 
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void update_MissingRequiredData() {
-//		playerRepository.save(updateMockPlayer(3L,"st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
-//	}
-//
-//	@Test
-//	public void delete_Deleted() {
-//		playerRepository.delete(10L);
-//		Player findPlayer = playerRepository.findOne(10L);
-//		Assert.assertNull(findPlayer);
-//	}
-//
-//	@Test(expected = EmptyResultDataAccessException.class)
-//	public void delete_NotFound() {
-//		playerRepository.delete(101L);
-//	}
+	@Test(expected=DataIntegrityViolationException.class)
+	public void update_MissingRequiredData() {
+		playerRepository.save(updateMockPlayer(2L, "Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2), null));
+	}
+
+	@Test
+	public void delete_Deleted() {
+		playerRepository.delete(10L);
+		Player findPlayer = playerRepository.findOne(10L);
+		Assert.assertNull(findPlayer);
+	}
+
+	@Test(expected = EmptyResultDataAccessException.class)
+	public void delete_NotFound() {
+		playerRepository.delete(101L);
+	}
 
 	private Player createMockPlayer(String lastName, String firstName, LocalDate birthdate, String displayName) {
 		Player player = new Player();

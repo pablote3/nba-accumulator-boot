@@ -65,31 +65,31 @@ public class PlayerServiceImpl implements PlayerService {
 
 	@Override
 	public Player update(Player updatePlayer) {
-		return null;
-//		Standing standing = findByTeamKeyAndAsOfDate(updateStanding.getTeam().getTeamKey(), updateStanding.getStandingDate());
-//		if (standing.isFound()) {
-//			standing.setRank(updateStanding.getRank());
-//			standing.setOrdinalRank(updateStanding.getOrdinalRank());
-//			standing.setGamesWon(updateStanding.getGamesWon());
-//			standing.setGamesLost(updateStanding.getGamesLost());
-//			standing.setStreak(updateStanding.getStreak());
-//			standingRepository.save(standing);
-//			standing.setStatusCode(StatusCodeDAO.Updated);
-//		}
-//		return standing;
+		Player player = findByLastNameAndFirstNameAndBirthdate(updatePlayer.getLastName(), updatePlayer.getFirstName(), updatePlayer.getBirthdate());
+		if (player.isFound()) {
+			player.setLastName(updatePlayer.getLastName());
+			player.setFirstName(updatePlayer.getFirstName());
+			player.setBirthdate(updatePlayer.getBirthdate());
+			player.setDisplayName(updatePlayer.getDisplayName());
+			player.setHeight(updatePlayer.getHeight());
+			player.setWeight(updatePlayer.getWeight());
+			player.setBirthplace(updatePlayer.getBirthplace());
+			playerRepository.save(player);
+			player.setStatusCode(StatusCodeDAO.Updated);
+		}
+		return player;
 	}
 
 	@Override
 	public Player delete(Long id) {
-		return null;
-//		Standing findStanding = getById(id);
-//		if (findStanding != null && findStanding.isFound()) {
-//			standingRepository.delete(findStanding.getId());
-//			findStanding.setStatusCode(StatusCodeDAO.Deleted);
-//			return findStanding;
-//		}
-//		else {
-//			return new Standing(StatusCodeDAO.NotFound);
-//		}
+		Player findPlayer = getById(id);
+		if (findPlayer != null && findPlayer.isFound()) {
+			playerRepository.delete(findPlayer.getId());
+			findPlayer.setStatusCode(StatusCodeDAO.Deleted);
+			return findPlayer;
+		}
+		else {
+			return new Player(StatusCodeDAO.NotFound);
+		}
 	}
 }

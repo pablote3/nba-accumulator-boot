@@ -32,7 +32,7 @@ public class PlayerServiceTest {
 	@Test
 	public void listAll() {
 		List<Player> players = (List<Player>)playerService.listAll();
-		Assert.assertTrue(players.size() >= 15);
+		Assert.assertTrue(players.size() >= 14);
 	}
 
 	@Test
@@ -109,38 +109,38 @@ public class PlayerServiceTest {
 		playerService.create(player);
 	}
 
-//	@Test
-//	public void update_Updated() {
-//		Player updatePlayer = playerService.update(updateMockPlayer(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), "10th"));
-//		Player player = playerService.findByTeamKeyAndAsOfDate("st-louis-bomber's", LocalDate.of(2015, 10, 31));
-//		Assert.assertEquals("10th", player.getOrdinalRank());
-//		Assert.assertTrue(updatePlayer.isUpdated());
-//	}
-//
-//	@Test
-//	public void update_NotFound() {
-//		Player player = playerService.update(updateMockPlayer(3L, "st-louis-bomber's", LocalDate.of(2015, 11, 11), "10th"));
-//		Assert.assertTrue(player.isNotFound());
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void update_MissingRequiredData() {
-//		playerService.update(updateMockPlayer(3L, "st-louis-bomber's", LocalDate.of(2015, 10, 31), null));
-//	}
-//
-//	@Test
-//	public void delete_Deleted() {
-//		Player deletePlayer = playerService.delete(6L);
-//		Player findPlayer = playerService.getById(6L);
-//		Assert.assertNull(findPlayer);
-//		Assert.assertTrue(deletePlayer.isDeleted());
-//	}
-//
-//	@Test
-//	public void delete_NotFound() {
-//		Player deletePlayer = playerService.delete(101L);
-//		Assert.assertTrue(deletePlayer.isNotFound());
-//	}
+	@Test
+	public void update_Updated() {
+		Player updatePlayer = playerService.update(createMockPlayer("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13), "Thad Puzdrakiewicz2"));
+		Player player = playerService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13));
+		Assert.assertEquals("Thad Puzdrakiewicz2", player.getDisplayName());
+		Assert.assertTrue(updatePlayer.isUpdated());
+	}
+
+	@Test
+	public void update_NotFound() {
+		Player player = playerService.update(createMockPlayer("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 14), "Thad Puzdrakiewicz"));
+		Assert.assertTrue(player.isNotFound());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void update_MissingRequiredData() {
+		Player player = playerService.update(createMockPlayer("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13), null));
+	}
+
+	@Test
+	public void delete_Deleted() {
+		Player deletePlayer = playerService.delete(6L);
+		Player findPlayer = playerService.getById(6L);
+		Assert.assertNull(findPlayer);
+		Assert.assertTrue(deletePlayer.isDeleted());
+	}
+
+	@Test
+	public void delete_NotFound() {
+		Player deletePlayer = playerService.delete(101L);
+		Assert.assertTrue(deletePlayer.isNotFound());
+	}
 
 	private Player createMockPlayer(String lastName, String firstName, LocalDate birthdate, String displayName) {
 		Player player = new Player();
