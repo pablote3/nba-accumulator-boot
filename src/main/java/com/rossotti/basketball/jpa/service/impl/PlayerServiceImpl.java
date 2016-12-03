@@ -22,11 +22,6 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	@Override
-	public List<Player> findByLastNameAndFirstName(String lastName, String firstName) {
-		return playerRepository.findByLastNameAndFirstName(lastName, firstName);
-	}
-
-	@Override
 	public Player findByLastNameAndFirstNameAndBirthdate(String lastName, String firstName, LocalDate birthdate) {
 		Player player = playerRepository.findByLastNameAndFirstNameAndBirthdate(lastName, firstName, birthdate);
 		if (player != null) {
@@ -36,6 +31,11 @@ public class PlayerServiceImpl implements PlayerService {
 			player = new Player(StatusCodeDAO.NotFound);
 		}
 		return player;
+	}
+
+	@Override
+	public List<Player> findByLastNameAndFirstName(String lastName, String firstName) {
+		return playerRepository.findByLastNameAndFirstName(lastName, firstName);
 	}
 
 	@Override

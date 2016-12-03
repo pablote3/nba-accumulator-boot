@@ -20,7 +20,6 @@ public interface RosterPlayerRepository extends Repository<RosterPlayer, Long> {
 
 	String findByTeamKeyAndAsOfDate =
 			"select rp from RosterPlayer rp " +
-			"inner join rp.player p " +
 			"inner join rp.team t " +
 			"where t.teamKey = :teamKey " +
 			"and rp.fromDate <= :asOfDate " +
