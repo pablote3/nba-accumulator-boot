@@ -29,6 +29,15 @@ public class Team extends AbstractDomainClass {
 		this.standings = standings;
 	}
 
+	@OneToMany(mappedBy="team", fetch = FetchType.LAZY)
+	private List<RosterPlayer> rosterPlayers = new ArrayList<RosterPlayer>();
+	public List<RosterPlayer> getRosterPlayers() {
+		return rosterPlayers;
+	}
+	@JsonManagedReference(value="rosterPlayer-to-team")
+	public void setRosterPlayers(List<RosterPlayer> rosterPlayers) {
+		this.rosterPlayers = rosterPlayers;
+	}
 
 	@Column(name="teamKey", length=35, nullable=false)
 	private String teamKey;

@@ -18,15 +18,15 @@ public class Player extends AbstractDomainClass {
 		setStatusCode(statusCode);
 	}
 
-//	@OneToMany(mappedBy="player", fetch = FetchType.LAZY)
-//	private List<RosterPlayer> rosterPlayers = new ArrayList<RosterPlayer>();
-//	public List<RosterPlayer> getRosterPlayers()  {
-//		return rosterPlayers;
-//	}
-//	@JsonManagedReference(value="rosterPlayer-to-player")
-//	public void setRosterPlayers(List<RosterPlayer> rosterPlayers)  {
-//		this.rosterPlayers = rosterPlayers;
-//	}
+	@OneToMany(mappedBy="player", fetch = FetchType.LAZY)
+	private List<RosterPlayer> rosterPlayers = new ArrayList<RosterPlayer>();
+	public List<RosterPlayer> getRosterPlayers()  {
+		return rosterPlayers;
+	}
+	@JsonManagedReference(value="rosterPlayer-to-player")
+	public void setRosterPlayers(List<RosterPlayer> rosterPlayers)  {
+		this.rosterPlayers = rosterPlayers;
+	}
 
 	@Column(name="lastName", length=20, nullable=false)
 	private String lastName;

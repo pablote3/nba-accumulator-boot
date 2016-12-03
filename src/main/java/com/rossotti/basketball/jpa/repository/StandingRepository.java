@@ -18,11 +18,22 @@ public interface StandingRepository extends Repository<Standing, Long> {
 
 	void delete(Long id);
 
-	@Query("select s from Standing s inner join s.team t where t.teamKey = :teamKey")
+	String findByTeamKey =
+			"select s from Standing s " +
+			"inner join s.team t " +
+			"where t.teamKey = :teamKey";
+
+	@Query(findByTeamKey)
 	List<Standing> findByTeamKey(@Param("teamKey") String teamKey);
 
 	List<Standing> findByStandingDate(LocalDate asOfDate);
 
-	@Query("select s from Standing s inner join s.team t where t.teamKey = :teamKey and s.standingDate = :asOfDate")
+	String findByTeamKeyAndStandingDate =
+			"select s from Standing s " +
+			"inner join s.team t " +
+			"where t.teamKey = :teamKey " +
+			"and s.standingDate = :asOfDate";
+
+	@Query(findByTeamKeyAndStandingDate)
 	Standing findByTeamKeyAndStandingDate(@Param("teamKey") String teamKey, @Param("asOfDate") LocalDate asOfDate);
 }

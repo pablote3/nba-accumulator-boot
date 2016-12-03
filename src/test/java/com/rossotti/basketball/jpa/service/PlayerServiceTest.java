@@ -27,6 +27,7 @@ public class PlayerServiceTest {
 	public void getById() {
 		Player player = playerService.getById(1L);
 		Assert.assertEquals("Puzdrakiew'icz", player.getLastName());
+		Assert.assertEquals(2, player.getRosterPlayers().size());
 	}
 
 	@Test

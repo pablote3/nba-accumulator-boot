@@ -30,12 +30,13 @@ public class PlayerRepositoryTest {
 	public void getById() {
 		Player player = playerRepository.findOne(1L);
 		Assert.assertEquals("Puzdrakiew'icz", player.getLastName());
+		Assert.assertEquals(2, player.getRosterPlayers().size());
 	}
 
 	@Test
 	public void findAll() {
 		List<Player> players = (List<Player>)playerRepository.findAll();
-		Assert.assertEquals(15, players.size());
+		Assert.assertEquals(16, players.size());
 	}
 
 	@Test
@@ -115,8 +116,8 @@ public class PlayerRepositoryTest {
 
 	@Test
 	public void delete_Deleted() {
-		playerRepository.delete(10L);
-		Player findPlayer = playerRepository.findOne(10L);
+		playerRepository.delete(7L);
+		Player findPlayer = playerRepository.findOne(7L);
 		Assert.assertNull(findPlayer);
 	}
 
