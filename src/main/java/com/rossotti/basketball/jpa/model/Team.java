@@ -20,7 +20,7 @@ public class Team extends AbstractDomainClass {
 	}
 
 	@OneToMany(mappedBy="team", fetch = FetchType.LAZY)
-	private List<Standing> standings = new ArrayList<Standing>();
+	private List<Standing> standings = new ArrayList<>();
 	public List<Standing> getStandings() {
 		return standings;
 	}
@@ -30,7 +30,7 @@ public class Team extends AbstractDomainClass {
 	}
 
 	@OneToMany(mappedBy="team", fetch = FetchType.LAZY)
-	private List<RosterPlayer> rosterPlayers = new ArrayList<RosterPlayer>();
+	private List<RosterPlayer> rosterPlayers = new ArrayList<>();
 	public List<RosterPlayer> getRosterPlayers() {
 		return rosterPlayers;
 	}

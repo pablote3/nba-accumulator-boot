@@ -36,7 +36,7 @@ public class RosterPlayerRepositoryTest {
 
 	@Test
 	public void findAll() {
-		List<RosterPlayer> rosterPlayers = (List<RosterPlayer>)rosterPlayerRepository.findAll();
+		List<RosterPlayer> rosterPlayers = rosterPlayerRepository.findAll();
 		Assert.assertEquals(13, rosterPlayers.size());
 	}
 
@@ -159,29 +159,29 @@ public class RosterPlayerRepositoryTest {
 		rosterPlayerRepository.save(createMockRosterPlayer(2L, 2L, LocalDate.of(2010, 1, 1), LocalDate.of(2010, 1, 10), null));
 	}
 
-//	@Test
-//	public void update_Updated() {
-//		rosterPlayerRepository.save(updateMockRosterPlayer(2L, "Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2), "Thady Puzdrakiewicz"));
-//		RosterPlayer rosterPlayer = rosterPlayerRepository.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2));
-//		Assert.assertEquals("Thady Puzdrakiewicz", rosterPlayer.getDisplayName());
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void update_MissingRequiredData() {
-//		rosterPlayerRepository.save(updateMockRosterPlayer(2L, "Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2), null));
-//	}
-//
-//	@Test
-//	public void delete_Deleted() {
-//		rosterPlayerRepository.delete(7L);
-//		RosterPlayer findRosterPlayer = rosterPlayerRepository.findOne(7L);
-//		Assert.assertNull(findRosterPlayer);
-//	}
-//
-//	@Test(expected = EmptyResultDataAccessException.class)
-//	public void delete_NotFound() {
-//		rosterPlayerRepository.delete(101L);
-//	}
+	@Test
+	public void update_Updated() {
+		rosterPlayerRepository.save(updateMockRosterPlayer(10L, 10L, 9L, LocalDate.of(2015, 11, 15), LocalDate.of(9999, 12, 31),"51"));
+		RosterPlayer rosterPlayer = rosterPlayerRepository.findByLastNameAndFirstNameAndBirthdateAndAsOfDate("Drummond", "Andre", LocalDate.of(1990, 3, 4), LocalDate.of(2015, 11, 15));
+		Assert.assertEquals("51", rosterPlayer.getNumber());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void update_MissingRequiredData() {
+		rosterPlayerRepository.save(updateMockRosterPlayer(10L, 10L, 9L, LocalDate.of(2015, 11, 15), LocalDate.of(9999, 12, 31),null));
+	}
+
+	@Test
+	public void delete_Deleted() {
+		rosterPlayerRepository.delete(22L);
+		RosterPlayer findRosterPlayer = rosterPlayerRepository.findOne(22L);
+		Assert.assertNull(findRosterPlayer);
+	}
+
+	@Test(expected = EmptyResultDataAccessException.class)
+	public void delete_NotFound() {
+		rosterPlayerRepository.delete(101L);
+	}
 
 	private RosterPlayer createMockRosterPlayer(Long playerId, Long teamId, LocalDate fromDate, LocalDate toDate, String number) {
 		RosterPlayer rosterPlayer = new RosterPlayer();
@@ -191,6 +191,12 @@ public class RosterPlayerRepositoryTest {
 		rosterPlayer.setToDate(toDate);
 		rosterPlayer.setNumber(number);
 		rosterPlayer.setPosition(RosterPlayer.Position.G);
+		return rosterPlayer;
+	}
+
+	private RosterPlayer updateMockRosterPlayer(Long id, Long playerId, Long teamId, LocalDate fromDate, LocalDate toDate, String number) {
+		RosterPlayer rosterPlayer = createMockRosterPlayer(playerId, teamId, fromDate, toDate, number);
+		rosterPlayer.setId(id);
 		return rosterPlayer;
 	}
 

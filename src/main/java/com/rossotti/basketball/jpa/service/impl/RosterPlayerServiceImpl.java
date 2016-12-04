@@ -1,11 +1,8 @@
 package com.rossotti.basketball.jpa.service.impl;
 
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
-import com.rossotti.basketball.jpa.model.Player;
 import com.rossotti.basketball.jpa.model.RosterPlayer;
-import com.rossotti.basketball.jpa.repository.PlayerRepository;
 import com.rossotti.basketball.jpa.repository.RosterPlayerRepository;
-import com.rossotti.basketball.jpa.service.PlayerService;
 import com.rossotti.basketball.jpa.service.RosterPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,13 +1,9 @@
 package com.rossotti.basketball.jpa.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name="rosterPlayer", uniqueConstraints=@UniqueConstraint(columnNames={"playerId", "teamId", "fromDate", "toDate"}))
@@ -21,7 +17,7 @@ public class RosterPlayer extends AbstractDomainClass {
 		setStatusCode(statusCode);
 	}
 
-	@ManyToOne(cascade= CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="teamId", referencedColumnName="id", nullable=false)
 	@JsonBackReference(value="rosterPlayer-to-team")
 	private Team team;
@@ -32,7 +28,7 @@ public class RosterPlayer extends AbstractDomainClass {
 		this.team = team;
 	}
 
-	@ManyToOne(cascade= CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="playerId", referencedColumnName="id", nullable=false)
 	@JsonBackReference(value="rosterPlayer-to-player")
 	private Player player;
@@ -108,10 +104,10 @@ public class RosterPlayer extends AbstractDomainClass {
 
 	public String toString() {
 		return ("\r" + "  id: " + this.id + "\n") +
-//				"  lastName: " + player.getLastName() + "\n" +
-//				"  firstName: " + player.getFirstName() + "\n" +
-//				"  birthDate: " + player.getBirthdate() + "\n" +
-//				"  teamKey: " + team.getTeamKey() + "\n" +
+				"  lastName: " + player.getLastName() + "\n" +
+				"  firstName: " + player.getFirstName() + "\n" +
+				"  birthDate: " + player.getBirthdate() + "\n" +
+				"  teamKey: " + team.getTeamKey() + "\n" +
 				"  fromDate: " + this.getFromDate() + "\n" +
 				"  toDate: " + this.getToDate() + "\n";
 	}

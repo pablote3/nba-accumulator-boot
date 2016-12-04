@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.TransactionSystemException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -35,7 +33,7 @@ public class PlayerRepositoryTest {
 
 	@Test
 	public void findAll() {
-		List<Player> players = (List<Player>)playerRepository.findAll();
+		List<Player> players = playerRepository.findAll();
 		Assert.assertEquals(16, players.size());
 	}
 

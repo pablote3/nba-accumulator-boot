@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.TransactionSystemException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,7 +35,7 @@ public class TeamRepositoryTest {
 
 	@Test
 	public void findAll() {
-		List<Team> teams = (List<Team>)teamRepository.findAll();
+		List<Team> teams = teamRepository.findAll();
 		Assert.assertEquals(12, teams.size());
 	}
 
@@ -127,8 +125,8 @@ public class TeamRepositoryTest {
 
 	@Test
 	public void create_Created() {
-		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2006, 7, 1), LocalDate.of(2006, 7, 3), "Baltimore Bullets2"));
-		Team findTeam = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2006, 7, 2), LocalDate.of(2006, 7, 2));
+		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2006, 7, 1), LocalDate.of(9999, 12, 31), "Baltimore Bullets2"));
+		Team findTeam = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2006, 7, 2), LocalDate.of(2006, 7, 20));
 		Assert.assertEquals("Baltimore Bullets2", findTeam.getFullName());
 	}
 

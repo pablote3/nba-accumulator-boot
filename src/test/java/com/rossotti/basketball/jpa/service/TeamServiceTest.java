@@ -123,7 +123,7 @@ public class TeamServiceTest {
 	@Test
 	public void findByDateRange_Found() {
 		List<Team> teams = teamService.findByDate(LocalDate.of(2009, 10, 30));
-		Assert.assertEquals(4, teams.size());
+		Assert.assertEquals(5, teams.size());
 	}
 
 	@Test
@@ -161,8 +161,8 @@ public class TeamServiceTest {
 
 	@Test
 	public void update_Updated() {
-		Team updateTeam = teamService.update(createMockTeam("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), "St. Louis Bombier's"));
-		Team team = teamService.findByTeamKeyAndAsOfDate("st-louis-bomber's", LocalDate.of(2010, 5, 30));
+		Team updateTeam = teamService.update(createMockTeam("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(9999, 12, 31), "St. Louis Bombier's"));
+		Team team = teamService.findByTeamKeyAndAsOfDate("st-louis-bomber's", LocalDate.of(9999, 12, 31));
 		Assert.assertEquals("St. Louis Bombier's", team.getFullName());
 		Assert.assertTrue(updateTeam.isUpdated());
 	}

@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.TransactionSystemException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -36,7 +34,7 @@ public class StandingRepositoryTest {
 
 	@Test
 	public void findAll() {
-		List<Standing> standings = (List<Standing>)standingRepository.findAll();
+		List<Standing> standings = standingRepository.findAll();
 		Assert.assertEquals(6, standings.size());
 	}
 

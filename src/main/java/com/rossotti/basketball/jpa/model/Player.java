@@ -19,7 +19,7 @@ public class Player extends AbstractDomainClass {
 	}
 
 	@OneToMany(mappedBy="player", fetch = FetchType.LAZY)
-	private List<RosterPlayer> rosterPlayers = new ArrayList<RosterPlayer>();
+	private List<RosterPlayer> rosterPlayers = new ArrayList<>();
 	public List<RosterPlayer> getRosterPlayers()  {
 		return rosterPlayers;
 	}

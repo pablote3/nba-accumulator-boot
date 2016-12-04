@@ -37,7 +37,7 @@ public class RosterPlayerServiceTest {
 	@Test
 	public void listAll() {
 		List<RosterPlayer> rosterPlayers = (List<RosterPlayer>)rosterPlayerService.listAll();
-		Assert.assertTrue(rosterPlayers.size() >= 13);
+		Assert.assertTrue(rosterPlayers.size() >= 12);
 	}
 
 	@Test
@@ -163,38 +163,38 @@ public class RosterPlayerServiceTest {
 		rosterPlayerService.create(createMockRosterPlayer(2L, 2L, "Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2), LocalDate.of(2010, 2, 1), LocalDate.of(2010, 2, 5), null));
 	}
 
-//	@Test
-//	public void update_Updated() {
-//		Player updatePlayer = rosterPlayerService.update(createMockPlayer("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13), "Thad Puzdrakiewicz2"));
-//		Player rosterPlayer = rosterPlayerService.findByLastNameAndFirstNameAndBirthdate("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13));
-//		Assert.assertEquals("Thad Puzdrakiewicz2", rosterPlayer.getDisplayName());
-//		Assert.assertTrue(updatePlayer.isUpdated());
-//	}
-//
-//	@Test
-//	public void update_NotFound() {
-//		Player rosterPlayer = rosterPlayerService.update(createMockPlayer("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 14), "Thad Puzdrakiewicz"));
-//		Assert.assertTrue(rosterPlayer.isNotFound());
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void update_MissingRequiredData() {
-//		Player rosterPlayer = rosterPlayerService.update(createMockPlayer("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13), null));
-//	}
-//
-//	@Test
-//	public void delete_Deleted() {
-//		Player deletePlayer = rosterPlayerService.delete(6L);
-//		Player findPlayer = rosterPlayerService.getById(6L);
-//		Assert.assertNull(findPlayer);
-//		Assert.assertTrue(deletePlayer.isDeleted());
-//	}
-//
-//	@Test
-//	public void delete_NotFound() {
-//		Player deletePlayer = rosterPlayerService.delete(101L);
-//		Assert.assertTrue(deletePlayer.isNotFound());
-//	}
+	@Test
+	public void update_Updated() {
+		RosterPlayer updateRosterPlayer = rosterPlayerService.update(createMockRosterPlayer(3L, 5L, "Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13), LocalDate.of(2009, 10, 30), LocalDate.of(9999, 12, 31), "25"));
+		RosterPlayer rosterPlayer = rosterPlayerService.findByLastNameAndFirstNameAndBirthdateAndAsOfDate("Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13), LocalDate.of(9999, 12, 31));
+		Assert.assertEquals("25", rosterPlayer.getNumber());
+		Assert.assertTrue(updateRosterPlayer.isUpdated());
+	}
+
+	@Test
+	public void update_NotFound() {
+		RosterPlayer rosterPlayer = rosterPlayerService.update(createMockRosterPlayer(3L, 5L, "Puzdrakiewiczy", "Thad", LocalDate.of(2000, 3, 13), LocalDate.of(2009, 10, 30), LocalDate.of(9999, 12, 31), "25"));
+		Assert.assertTrue(rosterPlayer.isNotFound());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void update_MissingRequiredData() {
+		rosterPlayerService.update(createMockRosterPlayer(3L, 5L, "Puzdrakiewicz", "Thad", LocalDate.of(2000, 3, 13), LocalDate.of(2009, 10, 30), LocalDate.of(9999, 12, 31), null));
+	}
+
+	@Test
+	public void delete_Deleted() {
+		RosterPlayer deletePlayer = rosterPlayerService.delete(23L);
+		RosterPlayer findPlayer = rosterPlayerService.getById(23L);
+		Assert.assertNull(findPlayer);
+		Assert.assertTrue(deletePlayer.isDeleted());
+	}
+
+	@Test
+	public void delete_NotFound() {
+		RosterPlayer deletePlayer = rosterPlayerService.delete(101L);
+		Assert.assertTrue(deletePlayer.isNotFound());
+	}
 
 	private RosterPlayer createMockRosterPlayer(Long playerId, Long teamId, String lastName, String firstName, LocalDate birthdate, LocalDate fromDate, LocalDate toDate, String number) {
 		RosterPlayer rosterPlayer = new RosterPlayer();
