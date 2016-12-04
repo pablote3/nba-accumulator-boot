@@ -42,6 +42,18 @@ insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, positi
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(22, 22, 20, '2014-10-29', '2015-06-30', '41', 'SF');
 insert into rosterPlayer (id, playerId, teamId, fromDate, toDate, number, position) VALUES(23, 23, 20, '2014-10-29', '2015-06-30', '1', 'PG');
 
+insert into official VALUES(1, 'Joe', '2009-07-01', 'LateCa''ll', '96', '2010-06-30');
+insert into official VALUES(2, 'Mike', '2009-07-01', 'MissedCa''ll', '97', '2010-06-30');
+insert into official VALUES(3, 'Mike', '2010-07-01', 'MissedCa''ll', '98', '2011-06-30');
+insert into official VALUES(4, 'Hefe', '2005-07-01', 'QuestionableCall', '99', '2006-06-30');
+insert into official VALUES(5, 'Limo', '2005-07-01', 'TerribleCall', '100', '2006-06-30');
+insert into official VALUES(10, 'Zach', '2010-10-30', 'Zarba', '28', '9999-12-31');
+insert into official VALUES(11, 'Brian', '2010-04-25', 'Forte', '100', '9999-12-31');
+insert into official VALUES(12, 'Eli', '2010-11-05', 'Roe', '45', '9999-12-31');
+insert into official VALUES(20, 'Tony', '1994-11-08', 'Brothers', '25', '9999-12-31');
+insert into official VALUES(21, 'Sean', '1993-11-05', 'Corbin', '33', '9999-12-31');
+insert into official VALUES(22, 'J.T.', '2009-12-08', 'Orr', '72', '9999-12-31');
+
 insert into standing (id, teamId, standingDate, rank, ordinalRank, gamesWon, gamesLost, streak, streakType, streakTotal, gamesBack, pointsFor, pointsAgainst, homeWins, homeLosses,
 awayWins, awayLosses, conferenceWins, conferenceLosses, lastFive, lastTen, gamesPlayed, pointsScoredPerGame, PointsAllowedPerGame, WinPercentage, PointDifferential, pointDifferentialPerGame)
 VALUES(1, 1, '2015-10-30', 1, '1st', 1, 0, 1, 'win', 1, 0, 114, 98, 1, 0, 0, 0, 0, 0, '1-0', '1-0', 1, 114, 98, 1.00, 16, 16);
