@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="rosterPlayer")
+@Table(name="rosterPlayer", uniqueConstraints=@UniqueConstraint(columnNames={"playerId", "teamId", "fromDate", "toDate"}))
 public class RosterPlayer extends AbstractDomainClass {
 
 	public RosterPlayer() {

@@ -126,32 +126,20 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	public void create_Created_AsOfDate() {
-		teamRepository.save(createMockTeam("seattle-supersonics", LocalDate.of(2012, 7, 1), LocalDate.of(9999, 12, 31), "Seattle Supersonics"));
-		Team findTeam = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("seattle-supersonics", LocalDate.of(2012, 7, 2), LocalDate.of(2012, 7, 2));
-		Assert.assertEquals("Seattle Supersonics", findTeam.getFullName());
-	}
-
-	@Test
-	public void create_Created_DateRange() {
+	public void create_Created() {
 		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2006, 7, 1), LocalDate.of(2006, 7, 3), "Baltimore Bullets2"));
 		Team findTeam = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2006, 7, 2), LocalDate.of(2006, 7, 2));
 		Assert.assertEquals("Baltimore Bullets2", findTeam.getFullName());
 	}
 
-	@Test(expected=IncorrectResultSizeDataAccessException.class)
-	public void create_OverlappingDates() {
-		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2005, 7, 1), LocalDate.of(2005, 7, 3), "Baltimore Bullets"));
-		teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2005, 7, 2), LocalDate.of(2005, 7, 2));
+	@Test(expected=DataIntegrityViolationException.class)
+	public void create_Existing() {
+		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2005, 7, 1), LocalDate.of(2006, 6, 30), "Baltimore Bullets"));
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		Team team = new Team();
-		team.setTeamKey("missing-required-data-key");
-		team.setFromDate(LocalDate.of(2009, 7, 1));
-		team.setToDate(LocalDate.of(2009, 7, 1));
-		teamRepository.save(team);
+		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2005, 7, 1), LocalDate.of(2006, 6, 30), null));
 	}
 
 	@Test

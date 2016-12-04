@@ -156,11 +156,7 @@ public class TeamServiceTest {
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		Team team = new Team();
-		team.setTeamKey("missing-required-data-key");
-		team.setFromDate(LocalDate.of(2009, 7, 1));
-		team.setToDate(LocalDate.of(2009, 7, 1));
-		teamService.create(team);
+		Team createTeam = teamService.create(createMockTeam("chavo-del-ocho", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1), null));
 	}
 
 	@Test

@@ -29,6 +29,7 @@ public class StandingServiceTest {
 		Standing standing = standingService.getById(1L);
 		Assert.assertEquals("1st", standing.getOrdinalRank());
 		Assert.assertEquals("Chicago Zephyr\'s", standing.getTeam().getFullName());
+		Assert.assertTrue(standing.isFound());
 	}
 
 	@Test
@@ -96,12 +97,7 @@ public class StandingServiceTest {
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		Standing standing = new Standing();
-		Team team = new Team();
-		team.setId(30L);
-		standing.setTeam(team);
-		standing.setStandingDate(LocalDate.of(2012, 7, 1));
-		standingService.create(standing);
+		standingService.create(createMockStanding(1L, "chicago-zephyr's", LocalDate.of(2016, 10, 30), null));
 	}
 
 	@Test

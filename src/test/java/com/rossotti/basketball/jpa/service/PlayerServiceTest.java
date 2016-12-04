@@ -103,11 +103,7 @@ public class PlayerServiceTest {
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		Player player = new Player();
-		player.setLastName("missing");
-		player.setFirstName("required-data");
-		player.setBirthdate(LocalDate.of(1969, 9, 8));
-		playerService.create(player);
+		Player createPlayer = playerService.create(createMockPlayer("Puzdrakiewicz", "Fred", LocalDate.of(1969, 11, 9), null));
 	}
 
 	@Test

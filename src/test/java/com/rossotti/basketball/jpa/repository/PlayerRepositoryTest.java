@@ -95,11 +95,7 @@ public class PlayerRepositoryTest {
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		Player player = new Player();
-		player.setLastName("missing");
-		player.setFirstName("required-data");
-		player.setBirthdate(LocalDate.of(1969, 9, 8));
-		playerRepository.save(player);
+		playerRepository.save(createMockPlayer("Puzdrakiewicz", "Fred", LocalDate.of(1968, 11, 8), null));
 	}
 
 	@Test

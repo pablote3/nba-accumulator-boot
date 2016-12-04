@@ -96,9 +96,7 @@ public class StandingRepositoryTest {
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		Standing standing = new Standing();
-		standing.setStandingDate(LocalDate.of(2012, 7, 1));
-		standingRepository.save(standing);
+		standingRepository.save(createMockStanding(20L, LocalDate.of(2012, 7, 1), null));
 	}
 
 	@Test
