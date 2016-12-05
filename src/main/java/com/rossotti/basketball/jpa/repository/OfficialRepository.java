@@ -18,14 +18,14 @@ public interface OfficialRepository extends Repository<Official, Long> {
 
 	void delete(Long id);
 
-	String findByLastNameAndFirstNameAndAsOfDate =
+	String findByLastNameAndFirstNameAndFromDateAndToDate =
 			"from Official " +
 			"where lastName = :lastName " +
 			"and firstName = :firstName " +
 			"and fromDate <= :fromDate " +
 			"and toDate >= :toDate";
 
-	@Query(findByLastNameAndFirstNameAndAsOfDate)
+	@Query(findByLastNameAndFirstNameAndFromDateAndToDate)
 	Official findByLastNameAndFirstNameAndFromDateAndToDate(@Param("lastName") String lastName, @Param("firstName") String firstName, @Param("fromDate") LocalDate fromDate, @Param("toDate") LocalDate toDate);
 
 	String findByFromDateAndToDate =

@@ -25,14 +25,14 @@ public class OfficialServiceTest {
 
 	@Test
 	public void getById() {
-		Official team = officialService.getById(1L);
-		Assert.assertEquals("LateCa'll", team.getLastName());
+		Official official = officialService.getById(1L);
+		Assert.assertEquals("LateCa'll", official.getLastName());
 	}
 
 	@Test
 	public void listAll() {
-		List<Official> teams = (List<Official>)officialService.listAll();
-		Assert.assertTrue(teams.size() >= 11);
+		List<Official> officials = (List<Official>)officialService.listAll();
+		Assert.assertTrue(officials.size() >= 11);
 	}
 
 	@Test
@@ -76,7 +76,7 @@ public class OfficialServiceTest {
 	@Test
 	public void findByAsOfDate_Found() {
 		List<Official> officials = officialService.findByAsOfDate(LocalDate.of(2009, 10, 30));
-		Assert.assertEquals(4, officials.size());
+		Assert.assertEquals(3, officials.size());
 	}
 
 	@Test
@@ -85,80 +85,74 @@ public class OfficialServiceTest {
 		Assert.assertEquals(0, officials.size());
 	}
 
-//	@Test
-//	public void create_Created_AsOfDate() {
-//		Official createOfficial = officialService.create(createMockOfficial("sacramento-hornets", LocalDate.of(2012, 7, 1), LocalDate.of(9999, 12, 31), "Sacramento Hornets"));
-//		Official findOfficial = officialService.findByOfficialKeyAndAsOfDate("sacramento-hornets", LocalDate.of(2012, 7, 1));
-//		Assert.assertTrue(createOfficial.isCreated());
-//		Assert.assertEquals("Sacramento Hornets", findOfficial.getFullName());
-//	}
-//
-//	@Test
-//	public void create_Created_DateRange() {
-//		Official createOfficial = officialService.create(createMockOfficial("sacramento-rivercats", LocalDate.of(2006, 7, 1), LocalDate.of(2012, 7, 2), "Sacramento Rivercats"));
-//		Official findOfficial = officialService.findByOfficialKeyAndAsOfDate("sacramento-rivercats", LocalDate.of(2006, 7, 1));
-//		Assert.assertTrue(createOfficial.isCreated());
-//		Assert.assertEquals("Sacramento Rivercats", findOfficial.getFullName());
-//	}
-//
-//	@Test
-//	public void create_OverlappingDates() {
-//		Official createOfficial = officialService.create(createMockOfficial("cleveland-rebels", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1), "Cleveland Rebels"));
-//		Assert.assertTrue(createOfficial.isFound());
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void create_MissingRequiredData() {
-//		Official createOfficial = officialService.create(createMockOfficial("chavo-del-ocho", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1), null));
-//	}
-//
-//	@Test
-//	public void update_Updated() {
-//		Official updateOfficial = officialService.update(createMockOfficial("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(9999, 12, 31), "St. Louis Bombier's"));
-//		Official team = officialService.findByOfficialKeyAndAsOfDate("st-louis-bomber's", LocalDate.of(9999, 12, 31));
-//		Assert.assertEquals("St. Louis Bombier's", team.getFullName());
-//		Assert.assertTrue(updateOfficial.isUpdated());
-//	}
-//
-//	@Test
-//	public void update_NotFound() {
-//		Official team = officialService.update(createMockOfficial("st-louis-bomb's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 7, 1), "St. Louis Bombier's"));
-//		Assert.assertTrue(team.isNotFound());
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void update_MissingRequiredData() {
-//		officialService.update(createMockOfficial("st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
-//	}
-//
-//	@Test
-//	public void delete_Deleted() {
-//		Official deleteOfficial = officialService.delete(7L);
-//		Official findOfficial = officialService.getById(7L);
-//		Assert.assertNull(findOfficial);
-//		Assert.assertTrue(deleteOfficial.isDeleted());
-//	}
-//
-//	@Test
-//	public void delete_NotFound() {
-//		Official deleteOfficial = officialService.delete(101L);
-//		Assert.assertTrue(deleteOfficial.isNotFound());
-//	}
-//
-//	private Official createMockOfficial(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
-//		Official team = new Official();
-//		team.setOfficialKey(key);
-//		team.setFromDate(fromDate);
-//		team.setToDate(toDate);
-//		team.setAbbr("SEA");
-//		team.setFirstName("Seattle");
-//		team.setLastName("Supersonics");
-//		team.setConference(Conference.West);
-//		team.setDivision(Division.Pacific);
-//		team.setSiteName("Key Arena");
-//		team.setCity("Seattle");
-//		team.setState("WA");
-//		team.setFullName(fullName);
-//		return team;
-//	}
+	@Test
+	public void create_Created_AsOfDate() {
+		Official createOfficial = officialService.create(createMockOfficial("BadCall", "Melvin", LocalDate.of(2006, 7, 6), LocalDate.of(9999, 12, 31), "996"));
+		Official findOfficial = officialService.findByLastNameAndFirstNameAndAsOfDate("BadCall", "Melvin", LocalDate.of(2006, 7, 6));
+		Assert.assertTrue(createOfficial.isCreated());
+		Assert.assertEquals("996", findOfficial.getNumber());
+	}
+
+	@Test
+	public void create_Created_DateRange() {
+		Official createOfficial = officialService.create(createMockOfficial("BadCall", "Melvon", LocalDate.of(2006, 7, 6), LocalDate.of(2006, 7, 10), "995"));
+		Official findOfficial = officialService.findByLastNameAndFirstNameAndAsOfDate("BadCall", "Melvon", LocalDate.of(2006, 7, 7));
+		Assert.assertTrue(createOfficial.isCreated());
+		Assert.assertEquals("995", findOfficial.getNumber());
+	}
+
+	@Test
+	public void create_OverlappingDates() {
+		Official createOfficial = officialService.create(createMockOfficial("QuestionableCall", "Hefe", LocalDate.of(2005, 7, 1), LocalDate.of(2006, 6, 20), "18"));
+		Assert.assertTrue(createOfficial.isFound());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void create_MissingRequiredData() {
+		officialService.create(createMockOfficial("BadCaller", "Melvyn", LocalDate.of(2006, 7, 6), LocalDate.of(2006, 7, 10), null));
+	}
+
+	@Test
+	public void update_Updated() {
+		Official updateOfficial = officialService.update(createMockOfficial("Forte", "Brian", LocalDate.of(2010, 4, 25), LocalDate.of(2012, 12, 31), "19"));
+		Official official = officialService.findByLastNameAndFirstNameAndAsOfDate("Forte", "Brian", LocalDate.of(2010, 4, 25));
+		Assert.assertEquals("19", official.getNumber());
+		Assert.assertEquals(LocalDate.of(2012, 12, 31), official.getToDate());
+		Assert.assertTrue(updateOfficial.isUpdated());
+	}
+
+	@Test
+	public void update_NotFound() {
+		Official updateOfficial = officialService.update(createMockOfficial("Forte", "Brian", LocalDate.of(2009, 4, 25), LocalDate.of(2009, 12, 31), "19"));
+		Assert.assertTrue(updateOfficial.isNotFound());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void update_MissingRequiredData() {
+		officialService.update(createMockOfficial("Forte", "Brian", LocalDate.of(2010, 4, 25), LocalDate.of(2012, 12, 31), null));
+	}
+
+	@Test
+	public void delete_Deleted() {
+		Official deleteOfficial = officialService.delete(21L);
+		Official findOfficial = officialService.getById(21L);
+		Assert.assertNull(findOfficial);
+		Assert.assertTrue(deleteOfficial.isDeleted());
+	}
+
+	@Test
+	public void delete_NotFound() {
+		Official deleteOfficial = officialService.delete(101L);
+		Assert.assertTrue(deleteOfficial.isNotFound());
+	}
+
+	private Official createMockOfficial(String lastName, String firstName, LocalDate fromDate, LocalDate toDate, String number) {
+		Official official = new Official();
+		official.setLastName(lastName);
+		official.setFirstName(firstName);
+		official.setFromDate(fromDate);
+		official.setToDate(toDate);
+		official.setNumber(number);
+		return official;
+	}
 }

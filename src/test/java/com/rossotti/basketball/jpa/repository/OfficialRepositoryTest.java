@@ -75,7 +75,7 @@ public class OfficialRepositoryTest {
 	@Test
 	public void findByAsOfDate_Found() {
 		List<Official> officials = officialRepository.findByFromDateAndToDate(LocalDate.of(2009, 7, 1), LocalDate.of(2009, 7, 1));
-		Assert.assertEquals(4, officials.size());
+		Assert.assertEquals(3, officials.size());
 	}
 
 	@Test
@@ -84,67 +84,60 @@ public class OfficialRepositoryTest {
 		Assert.assertEquals(0, officials.size());
 	}
 
-//	@Test
-//	public void create_Created() {
-//		officialRepository.save(createMockOfficial("baltimore-bullets", LocalDate.of(2006, 7, 1), LocalDate.of(9999, 12, 31), "Baltimore Bullets2"));
-//		Official findOfficial = officialRepository.findByOfficialKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2006, 7, 2), LocalDate.of(2006, 7, 20));
-//		Assert.assertEquals("Baltimore Bullets2", findOfficial.getFullName());
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void create_Existing() {
-//		officialRepository.save(createMockOfficial("baltimore-bullets", LocalDate.of(2005, 7, 1), LocalDate.of(2006, 6, 30), "Baltimore Bullets"));
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void create_MissingRequiredData() {
-//		officialRepository.save(createMockOfficial("baltimore-bullets", LocalDate.of(2005, 7, 1), LocalDate.of(2006, 6, 30), null));
-//	}
-//
-//	@Test
-//	public void update_Updated() {
-//		officialRepository.save(updateMockOfficial(3L, "st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), "St. Louis Bombier's"));
-//		Official team = officialRepository.findByOfficialKeyAndFromDateBeforeAndToDateAfter("st-louis-bomber's", LocalDate.of(2010, 5, 30), LocalDate.of(2010, 5, 30));
-//		Assert.assertEquals("St. Louis Bombier's", team.getFullName());
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void update_MissingRequiredData() {
-//		officialRepository.save(updateMockOfficial(3L,"st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), null));
-//	}
-//
-//	@Test
-//	public void delete_Deleted() {
-//		officialRepository.delete(10L);
-//		Official findOfficial = officialRepository.findOne(10L);
-//		Assert.assertNull(findOfficial);
-//	}
-//
-//	@Test(expected = EmptyResultDataAccessException.class)
-//	public void delete_NotFound() {
-//		officialRepository.delete(101L);
-//	}
-//
-//	private Official createMockOfficial(String key, LocalDate fromDate, LocalDate toDate, String fullName) {
-//		Official team = new Official();
-//		team.setOfficialKey(key);
-//		team.setFromDate(fromDate);
-//		team.setToDate(toDate);
-//		team.setAbbr("SEA");
-//		team.setFirstName("Seattle");
-//		team.setLastName("Supersonics");
-//		team.setConference(Conference.West);
-//		team.setDivision(Division.Pacific);
-//		team.setSiteName("Key Arena");
-//		team.setCity("Seattle");
-//		team.setState("WA");
-//		team.setFullName(fullName);
-//		return team;
-//	}
-//
-//	private Official updateMockOfficial(Long id, String key, LocalDate fromDate, LocalDate toDate, String fullName) {
-//		Official team = createMockOfficial(key, fromDate, toDate, fullName);
-//		team.setId(id);
-//		return team;
-//	}
+	@Test
+	public void create_Created() {
+		officialRepository.save(createMockOfficial("BadCall", "Melvin", LocalDate.of(2006, 7, 1), LocalDate.of(2006, 7, 5), "999"));
+		Official findOfficial = officialRepository.findByLastNameAndFirstNameAndFromDateAndToDate("BadCall", "Melvin", LocalDate.of(2006, 7, 1), LocalDate.of(2006, 7, 5));
+		Assert.assertEquals("999", findOfficial.getNumber());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void create_Existing() {
+		officialRepository.save(createMockOfficial("TerribleCall", "Limo", LocalDate.of(2005, 7, 1), LocalDate.of(2006, 6, 30), "100"));
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void create_MissingRequiredData() {
+		officialRepository.save(createMockOfficial("BadCall", "Melvin", LocalDate.of(2006, 7, 1), LocalDate.of(9999, 12, 31), null));
+	}
+
+	@Test
+	public void update_Updated() {
+		officialRepository.save(updateMockOfficial(10L, "Zarba", "Zach", LocalDate.of(2010, 10, 30), LocalDate.of(9999, 12, 31), "58"));
+		Official team = officialRepository.findByLastNameAndFirstNameAndFromDateAndToDate("Zarba", "Zach", LocalDate.of(2010, 10, 30), LocalDate.of(9999, 12, 31));
+		Assert.assertEquals("58", team.getNumber());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void update_MissingRequiredData() {
+		officialRepository.save(updateMockOfficial(10L, "Zarba", "Zach", LocalDate.of(2010, 10, 30), LocalDate.of(9999, 12, 31), null));
+	}
+
+	@Test
+	public void delete_Deleted() {
+		officialRepository.delete(20L);
+		Official findOfficial = officialRepository.findOne(20L);
+		Assert.assertNull(findOfficial);
+	}
+
+	@Test(expected = EmptyResultDataAccessException.class)
+	public void delete_NotFound() {
+		officialRepository.delete(101L);
+	}
+
+	private Official createMockOfficial(String lastName, String firstName, LocalDate fromDate, LocalDate toDate, String number) {
+		Official official = new Official();
+		official.setLastName(lastName);
+		official.setFirstName(firstName);
+		official.setFromDate(fromDate);
+		official.setToDate(toDate);
+		official.setNumber(number);
+		return official;
+	}
+
+	private Official updateMockOfficial(Long id, String lastName, String firstName, LocalDate fromDate, LocalDate toDate, String number) {
+		Official official = createMockOfficial(lastName, firstName, fromDate, toDate, number);
+		official.setId(id);
+		return official;
+	}
 }
