@@ -28,12 +28,12 @@ public class TeamServiceImpl implements TeamService {
 
 	@Override
 	public List<Team> findByDate(LocalDate asOfDate) {
-		return teamRepository.findByFromDateBeforeAndToDateAfter(asOfDate.plusDays(1), asOfDate.minusDays(1));
+		return teamRepository.findByFromDateAndToDate(asOfDate, asOfDate);
 	}
 
 	@Override
 	public Team findByTeamKeyAndAsOfDate(String teamKey, LocalDate asOfDate) {
-		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter(teamKey, asOfDate.plusDays(1), asOfDate.minusDays(1));
+		Team team = teamRepository.findByTeamKeyAndFromDateAndToDate(teamKey, asOfDate, asOfDate);
 		if (team != null) {
 			team.setStatusCode(StatusCodeDAO.Found);
 		}
@@ -44,8 +44,8 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public Team findByLastNameAndAsOfDate(String lastName, LocalDate date) {
-		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter(lastName, date.plusDays(1), date.minusDays(1));
+	public Team findByLastNameAndAsOfDate(String lastName, LocalDate asOfDate) {
+		Team team = teamRepository.findByLastNameAndFromDateAndToDate(lastName, asOfDate, asOfDate);
 		if (team != null) {
 			team.setStatusCode(StatusCodeDAO.Found);
 		}

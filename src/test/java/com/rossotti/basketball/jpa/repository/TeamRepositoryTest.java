@@ -41,61 +41,61 @@ public class TeamRepositoryTest {
 
 	@Test
 	public void findByKey_Found_FromDate() {
-		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-globetrotter's", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
+		Team team = teamRepository.findByTeamKeyAndFromDateAndToDate("harlem-globetrotter's", LocalDate.of(2009, 7, 1), LocalDate.of(2009, 7, 1));
 		Assert.assertEquals("Harlem Globetrotter's", team.getFullName());
 	}
 
 	@Test
 	public void findByKey_Found_ToDate() {
-		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-globetrotter's", LocalDate.of(2010, 6, 29), LocalDate.of(2010, 6, 29));
+		Team team = teamRepository.findByTeamKeyAndFromDateAndToDate("harlem-globetrotter's", LocalDate.of(2010, 6, 30), LocalDate.of(2010, 6, 30));
 		Assert.assertEquals("Harlem Globetrotter's", team.getFullName());
 	}
 
 	@Test
 	public void findByKey_NotFound_TeamKey() {
-		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-hoopers", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
+		Team team = teamRepository.findByTeamKeyAndFromDateAndToDate("harlem-hoopers", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
 		Assert.assertNull(team);
 	}
 
 	@Test
 	public void findByKey_NotFound_BeforeAsOfDate() {
-		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-globetrotter's", LocalDate.of(2009, 6, 30), LocalDate.of(2009, 6, 30));
+		Team team = teamRepository.findByTeamKeyAndFromDateAndToDate("harlem-globetrotter's", LocalDate.of(2009, 6, 30), LocalDate.of(2009, 6, 30));
 		Assert.assertNull(team);
 	}
 
 	@Test
 	public void findByKey_NotFound_AfterAsOfDate() {
-		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("harlem-globetrotter's", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1));
+		Team team = teamRepository.findByTeamKeyAndFromDateAndToDate("harlem-globetrotter's", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1));
 		Assert.assertNull(team);
 	}
 
 	@Test
 	public void findByLastName_Found_FromDate() {
-		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter("Globetrotter's", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
+		Team team = teamRepository.findByLastNameAndFromDateAndToDate("Globetrotter's", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
 		Assert.assertEquals("Harlem Globetrotter's", team.getFullName());
 	}
 
 	@Test
 	public void findByLastName_Found_ToDate() {
-		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter("Globetrotter's", LocalDate.of(2010, 6, 29), LocalDate.of(2010, 6, 29));
+		Team team = teamRepository.findByLastNameAndFromDateAndToDate("Globetrotter's", LocalDate.of(2010, 6, 29), LocalDate.of(2010, 6, 29));
 		Assert.assertEquals("Harlem Globetrotter's", team.getFullName());
 	}
 
 	@Test
 	public void findByLastName_NotFound_TeamKey() {
-		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter("Globetreker's", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
+		Team team = teamRepository.findByLastNameAndFromDateAndToDate("Globetreker's", LocalDate.of(2009, 7, 2), LocalDate.of(2009, 7, 2));
 		Assert.assertNull(team);
 	}
 
 	@Test
 	public void findByLastName_NotFound_BeforeAsOfDate() {
-		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter("Globetrotter's", LocalDate.of(2009, 6, 30), LocalDate.of(2009, 6, 30));
+		Team team = teamRepository.findByLastNameAndFromDateAndToDate("Globetrotter's", LocalDate.of(2009, 6, 30), LocalDate.of(2009, 6, 30));
 		Assert.assertNull(team);
 	}
 
 	@Test
 	public void findByLastName_NotFound_AfterAsOfDate() {
-		Team team = teamRepository.findByLastNameAndFromDateBeforeAndToDateAfter("Globetrotter's", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1));
+		Team team = teamRepository.findByLastNameAndFromDateAndToDate("Globetrotter's", LocalDate.of(2010, 7, 1), LocalDate.of(2010, 7, 1));
 		Assert.assertNull(team);
 	}
 
@@ -113,20 +113,20 @@ public class TeamRepositoryTest {
 
 	@Test
 	public void findByDate_Found() {
-		List<Team> teams = teamRepository.findByFromDateBeforeAndToDateAfter(LocalDate.of(2009, 10, 30), LocalDate.of(2009, 10, 30));
+		List<Team> teams = teamRepository.findByFromDateAndToDate(LocalDate.of(2009, 10, 30), LocalDate.of(2009, 10, 30));
 		Assert.assertEquals(3, teams.size());
 	}
 
 	@Test
 	public void findByDate_NotFound() {
-		List<Team> teams = teamRepository.findByFromDateBeforeAndToDateAfter(LocalDate.of(1909, 10, 30), LocalDate.of(1909, 10, 30));
+		List<Team> teams = teamRepository.findByFromDateAndToDate(LocalDate.of(1909, 10, 30), LocalDate.of(1909, 10, 30));
 		Assert.assertEquals(0, teams.size());
 	}
 
 	@Test
 	public void create_Created() {
 		teamRepository.save(createMockTeam("baltimore-bullets", LocalDate.of(2006, 7, 1), LocalDate.of(9999, 12, 31), "Baltimore Bullets2"));
-		Team findTeam = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("baltimore-bullets", LocalDate.of(2006, 7, 2), LocalDate.of(2006, 7, 20));
+		Team findTeam = teamRepository.findByTeamKeyAndFromDateAndToDate("baltimore-bullets", LocalDate.of(2006, 7, 2), LocalDate.of(2006, 7, 20));
 		Assert.assertEquals("Baltimore Bullets2", findTeam.getFullName());
 	}
 
@@ -143,7 +143,7 @@ public class TeamRepositoryTest {
 	@Test
 	public void update_Updated() {
 		teamRepository.save(updateMockTeam(3L, "st-louis-bomber's", LocalDate.of(2009, 7, 1), LocalDate.of(2010, 6, 30), "St. Louis Bombier's"));
-		Team team = teamRepository.findByTeamKeyAndFromDateBeforeAndToDateAfter("st-louis-bomber's", LocalDate.of(2010, 5, 30), LocalDate.of(2010, 5, 30));
+		Team team = teamRepository.findByTeamKeyAndFromDateAndToDate("st-louis-bomber's", LocalDate.of(2010, 5, 30), LocalDate.of(2010, 5, 30));
 		Assert.assertEquals("St. Louis Bombier's", team.getFullName());
 	}
 
