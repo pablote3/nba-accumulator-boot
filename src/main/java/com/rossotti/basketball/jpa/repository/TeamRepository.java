@@ -18,16 +18,6 @@ public interface TeamRepository extends Repository<Team, Long> {
 
 	void delete(Long id);
 
-	List<Team> findByTeamKey(String teamKey);
-
-	String findByFromDateAndToDate =
-			"from Team " +
-			"where fromDate <= :fromDate " +
-			"and toDate >= :toDate";
-
-	@Query(findByFromDateAndToDate)
-	List<Team> findByFromDateAndToDate(@Param("fromDate") LocalDate fromDate, @Param("toDate") LocalDate toDate);
-
 	String findByTeamKeyAndFromDateAndToDate =
 			"from Team " +
 			"where teamKey = :teamKey " +
@@ -45,4 +35,14 @@ public interface TeamRepository extends Repository<Team, Long> {
 
 	@Query(findByLastNameAndFromDateAndToDate)
 	Team findByLastNameAndFromDateAndToDate(@Param("lastName") String lastName, @Param("fromDate") LocalDate fromDate, @Param("toDate") LocalDate toDate);
+
+	List<Team> findByTeamKey(String teamKey);
+
+	String findByFromDateAndToDate =
+			"from Team " +
+			"where fromDate <= :fromDate " +
+			"and toDate >= :toDate";
+
+	@Query(findByFromDateAndToDate)
+	List<Team> findByFromDateAndToDate(@Param("fromDate") LocalDate fromDate, @Param("toDate") LocalDate toDate);
 }

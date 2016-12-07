@@ -1,6 +1,5 @@
 package com.rossotti.basketball.jpa.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +22,6 @@ public class Player extends AbstractDomainClass {
 	public List<RosterPlayer> getRosterPlayers()  {
 		return rosterPlayers;
 	}
-	@JsonManagedReference(value="rosterPlayer-to-player")
 	public void setRosterPlayers(List<RosterPlayer> rosterPlayers)  {
 		this.rosterPlayers = rosterPlayers;
 	}

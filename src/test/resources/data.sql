@@ -54,6 +54,46 @@ insert into official VALUES(20, 'Tony', '1994-11-08', 'Brothers', '25', '9999-12
 insert into official VALUES(21, 'Sean', '1993-11-05', 'Corbin', '33', '9999-12-31');
 insert into official VALUES(22, 'J.T.', '2009-12-08', 'Orr', '72', '9999-12-31');
 
+insert into game VALUES(1, '2015-10-27 20:00:00.0', 'Regular', 'Completed');
+insert into boxScore (id, gameId, teamId, location, result, points) VALUES(1, 1, 1, 'Home', 'Win', 114);
+insert into boxScore (id, gameId, teamId, location, result, points) VALUES(2, 1, 2, 'Away', 'Loss', 98);
+
+insert into game VALUES(2, '2015-10-27 21:00:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(3, 2, 3, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(4, 2, 4, 'Away');
+
+insert into game VALUES(3, '2015-10-27 20:30:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(5, 3, 5, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(6, 3, 6, 'Away');
+
+insert into game VALUES(4, '2015-10-28 20:00:00.0', 'Regular', 'Completed');
+insert into boxScore (id, gameId, teamId, location) VALUES(7, 4, 1, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(8, 4, 3, 'Away');
+
+insert into game VALUES(5, '2015-10-29 20:00:00.0', 'Regular', 'Postponed');
+insert into boxScore (id, gameId, teamId, location) VALUES(9, 5, 5, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(10, 5, 3, 'Away');
+
+insert into game VALUES(6, '2015-10-29 20:00:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(11, 6, 1, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(12, 6, 2, 'Away');
+
+insert into game VALUES(7, '2015-10-30 10:00:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(13, 7, 5, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(14, 7, 3, 'Away');
+
+insert into game VALUES(8, '2015-10-15 10:00:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(15, 8, 6, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(16, 8, 5, 'Away');
+
+insert into game VALUES(9, '2015-11-24 10:00:00.0', 'Regular', 'Completed');
+insert into boxScore (id, gameId, teamId, location) VALUES(17, 9, 9, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(18, 9, 8, 'Away');
+
+insert into game VALUES(10, '2015-01-07 19:00:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(19, 10, 20, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(20, 10, 21, 'Away');
+
 insert into standing (id, teamId, standingDate, rank, ordinalRank, gamesWon, gamesLost, streak, streakType, streakTotal, gamesBack, pointsFor, pointsAgainst, homeWins, homeLosses,
 awayWins, awayLosses, conferenceWins, conferenceLosses, lastFive, lastTen, gamesPlayed, pointsScoredPerGame, PointsAllowedPerGame, WinPercentage, PointDifferential, pointDifferentialPerGame)
 VALUES(1, 1, '2015-10-30', 1, '1st', 1, 0, 1, 'win', 1, 0, 114, 98, 1, 0, 0, 0, 0, 0, '1-0', '1-0', 1, 114, 98, 1.00, 16, 16);

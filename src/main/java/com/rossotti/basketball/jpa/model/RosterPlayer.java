@@ -1,7 +1,5 @@
 package com.rossotti.basketball.jpa.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -19,7 +17,6 @@ public class RosterPlayer extends AbstractDomainClass {
 
 	@ManyToOne
 	@JoinColumn(name="teamId", referencedColumnName="id", nullable=false)
-	@JsonBackReference(value="rosterPlayer-to-team")
 	private Team team;
 	public Team getTeam() {
 		return team;
@@ -30,7 +27,6 @@ public class RosterPlayer extends AbstractDomainClass {
 
 	@ManyToOne
 	@JoinColumn(name="playerId", referencedColumnName="id", nullable=false)
-	@JsonBackReference(value="rosterPlayer-to-player")
 	private Player player;
 	public Player getPlayer() {
 		return player;

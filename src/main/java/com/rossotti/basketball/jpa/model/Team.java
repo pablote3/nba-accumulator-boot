@@ -1,7 +1,5 @@
 package com.rossotti.basketball.jpa.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,7 +22,6 @@ public class Team extends AbstractDomainClass {
 	public List<Standing> getStandings() {
 		return standings;
 	}
-	@JsonManagedReference(value="standing-to-team")
 	public void setStandings(List<Standing> standings) {
 		this.standings = standings;
 	}
@@ -34,7 +31,6 @@ public class Team extends AbstractDomainClass {
 	public List<RosterPlayer> getRosterPlayers() {
 		return rosterPlayers;
 	}
-	@JsonManagedReference(value="rosterPlayer-to-team")
 	public void setRosterPlayers(List<RosterPlayer> rosterPlayers) {
 		this.rosterPlayers = rosterPlayers;
 	}
