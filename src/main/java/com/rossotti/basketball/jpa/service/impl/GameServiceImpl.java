@@ -70,16 +70,15 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public Game create(Game createGame) {
-		return null;
-//		Game game = findByLastNameAndFirstNameAndAsOfDate(createGame.getLastName(), createGame.getFirstName(), createGame.getFromDate());
-//		if (game.isNotFound()) {
-//			gameRepository.save(createGame);
-//			createGame.setStatusCode(StatusCodeDAO.Created);
-//			return createGame;
-//		}
-//		else {
-//			return game;
-//		}
+		Game game = findByTeamKeyAndAsOfDate(createGame.getBoxScoreAway().getTeam().getTeamKey(), DateTimeUtil.getLocalDate(createGame.getGameDateTime()));
+		if (game.isNotFound()) {
+			gameRepository.save(createGame);
+			createGame.setStatusCode(StatusCodeDAO.Created);
+			return createGame;
+		}
+		else {
+			return game;
+		}
 	}
 
 	@Override

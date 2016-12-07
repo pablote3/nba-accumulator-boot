@@ -1,6 +1,8 @@
 package com.rossotti.basketball.jpa.service;
 
+import com.rossotti.basketball.jpa.model.BoxScore;
 import com.rossotti.basketball.jpa.model.Game;
+import com.rossotti.basketball.jpa.model.Team;
 import com.rossotti.basketball.util.DateTimeUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -109,33 +111,26 @@ public class GameServiceTest {
 		Assert.assertNull(gameDateTime);
 	}
 
-//	@Test
-//	public void create_Created_AsOfDate() {
-//		Game createGame = gameService.create(createMockGame("BadCall", "Melvin", LocalDate.of(2006, 7, 6), LocalDate.of(9999, 12, 31), "996"));
-//		Game findGame = gameService.findByLastNameAndFirstNameAndAsOfDate("BadCall", "Melvin", LocalDate.of(2006, 7, 6));
-//		Assert.assertTrue(createGame.isCreated());
-//		Assert.assertEquals("996", findGame.getNumber());
-//	}
-//
-//	@Test
-//	public void create_Created_DateRange() {
-//		Game createGame = gameService.create(createMockGame("BadCall", "Melvon", LocalDate.of(2006, 7, 6), LocalDate.of(2006, 7, 10), "995"));
-//		Game findGame = gameService.findByLastNameAndFirstNameAndAsOfDate("BadCall", "Melvon", LocalDate.of(2006, 7, 7));
-//		Assert.assertTrue(createGame.isCreated());
-//		Assert.assertEquals("995", findGame.getNumber());
-//	}
-//
-//	@Test
-//	public void create_OverlappingDates() {
-//		Game createGame = gameService.create(createMockGame("QuestionableCall", "Hefe", LocalDate.of(2005, 7, 1), LocalDate.of(2006, 6, 20), "18"));
-//		Assert.assertTrue(createGame.isFound());
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void create_MissingRequiredData() {
-//		gameService.create(createMockGame("BadCaller", "Melvyn", LocalDate.of(2006, 7, 6), LocalDate.of(2006, 7, 10), null));
-//	}
-//
+	@Test
+	public void create_Created() {
+		Game createGame = gameService.create(createMockGame(LocalDateTime.of(2016, 10, 11, 22, 0), 23L, 1L, "chicago-zephyr's", 24L, 2L, "harlem-globetrotter's", Game.GameStatus.Scheduled));
+		Game findGame = gameService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2016, 10, 11));
+		Assert.assertTrue(createGame.isCreated());
+		Assert.assertEquals(2, findGame.getBoxScores().size());
+		Assert.assertEquals("Harlem Globetrotter's", findGame.getBoxScoreAway().getTeam().getFullName());
+	}
+
+	@Test
+	public void create_Exists() {
+		Game createGame = gameService.create(createMockGame(LocalDateTime.of(2015, 10, 27, 20, 30), 3L, 3L, "st-louis-bomber's", 4L, 4L, "salinas-cowboys", Game.GameStatus.Scheduled));
+		Assert.assertTrue(createGame.isFound());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void create_MissingRequiredData() {
+		gameService.create(createMockGame(LocalDateTime.of(2016, 10, 13, 22, 0), 21L, 1L, "chicago-zephyr's", 22L, 2L, "harlem-globetrotter's", null));
+	}
+
 //	@Test
 //	public void update_Updated() {
 //		Game updateGame = gameService.update(createMockGame("Forte", "Brian", LocalDate.of(2010, 4, 25), LocalDate.of(2012, 12, 31), "19"));
@@ -169,14 +164,30 @@ public class GameServiceTest {
 //		Game deleteGame = gameService.delete(101L);
 //		Assert.assertTrue(deleteGame.isNotFound());
 //	}
-//
-//	private Game createMockGame(String lastName, String firstName, LocalDate fromDate, LocalDate toDate, String number) {
-//		Game game = new Game();
-//		game.setLastName(lastName);
-//		game.setFirstName(firstName);
-//		game.setFromDate(fromDate);
-//		game.setToDate(toDate);
-//		game.setNumber(number);
-//		return game;
-//	}
+
+	private Game createMockGame(LocalDateTime gameDateTime, Long boxScoreIdHome, Long teamIdHome, String teamKeyHome, Long boxScoreIdAway, Long teamIdAway, String teamKeyAway, Game.GameStatus status) {
+		Game game = new Game();
+		game.setGameDateTime(gameDateTime);
+		game.setSeasonType(Game.SeasonType.Regular);
+		game.setStatus(status);
+		game.addBoxScore(createMockBoxScore(game, boxScoreIdHome, teamIdHome, teamKeyHome, BoxScore.Location.Home));
+		game.addBoxScore(createMockBoxScore(game, boxScoreIdAway, teamIdAway, teamKeyAway, BoxScore.Location.Away));
+		return game;
+	}
+
+	private BoxScore createMockBoxScore(Game game, Long boxScoreId, Long teamId, String teamKey, BoxScore.Location location) {
+		BoxScore boxScore = new BoxScore();
+		boxScore.setGame(game);
+		boxScore.setTeam(getMockTeam(teamId, teamKey));
+		boxScore.setLocation(location);
+		return boxScore;
+	}
+
+	private Team getMockTeam(Long teamId, String teamKey) {
+		Team team = new Team();
+		team.setId(teamId);
+		team.setTeamKey(teamKey);
+		return team;
+	}
+
 }

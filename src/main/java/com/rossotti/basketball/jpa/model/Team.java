@@ -35,6 +35,15 @@ public class Team extends AbstractDomainClass {
 		this.rosterPlayers = rosterPlayers;
 	}
 
+	@OneToMany(mappedBy="team", fetch = FetchType.LAZY)
+	private List<BoxScore> boxScores = new ArrayList<BoxScore>();
+	public List<BoxScore> getBoxScores() {
+		return boxScores;
+	}
+	public void setBoxScores(List<BoxScore> boxScores) {
+		this.boxScores = boxScores;
+	}
+
 	@Column(name="teamKey", length=35, nullable=false)
 	private String teamKey;
 	public String getTeamKey() {
