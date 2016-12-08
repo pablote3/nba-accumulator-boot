@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit4.SpringRunner;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,7 +37,7 @@ public class GameRepositoryTest {
 	@Test
 	public void findAll() {
 		List<Game> games = gameRepository.findAll();
-		Assert.assertEquals(10, games.size());
+		Assert.assertEquals(12, games.size());
 	}
 
 	@Test
@@ -143,17 +144,17 @@ public class GameRepositoryTest {
 		gameRepository.save(updateMockGame(9L, LocalDateTime.of(2015, 11, 24, 10, 0), 17L, 9L, "detroit-pistons", 18L, 8L, "st-louis-bomber's", null));
 	}
 
-//	@Test
-//	public void delete_Deleted() {
-//		gameRepository.delete(5L);
-//		Game standing = gameRepository.findOne(5L);
-//		Assert.assertNull(standing);
-//	}
-//
-//	@Test(expected = EmptyResultDataAccessException.class)
-//	public void delete_NotFound() {
-//		gameRepository.delete(101L);
-//	}
+	@Test
+	public void delete_Deleted() {
+		gameRepository.delete(11L);
+		Game standing = gameRepository.findOne(11L);
+		Assert.assertNull(standing);
+	}
+
+	@Test(expected = EmptyResultDataAccessException.class)
+	public void delete_NotFound() {
+		gameRepository.delete(101L);
+	}
 
 	private Game createMockGame(Long id, LocalDateTime gameDateTime, Long boxScoreIdHome, Long teamIdHome, String teamKeyHome, Long boxScoreIdAway, Long teamIdAway, String teamKeyAway, Game.GameStatus status) {
 		Game game = new Game();
@@ -184,12 +185,12 @@ public class GameRepositoryTest {
 
 	private Game updateMockGame(Long id, LocalDateTime gameDateTime, Long boxScoreIdHome, Long teamIdHome, String teamKeyHome, Long boxScoreIdAway, Long teamIdAway, String teamKeyAway, Game.GameStatus status) {
 		Game game = createMockGame(id, gameDateTime, boxScoreIdHome, teamIdHome, teamKeyHome, boxScoreIdAway, teamIdAway, teamKeyAway, status);
-		updateMockBoxScoreHome(id, game.getBoxScoreHome());
-		updateMockBoxScoreAway(id, game.getBoxScoreAway());
+		updateMockBoxScoreHome(game.getBoxScoreHome());
+		updateMockBoxScoreAway(game.getBoxScoreAway());
 		return game;
 	}
 
-	private void updateMockBoxScoreHome(Long id, BoxScore homeBoxScore) {
+	private void updateMockBoxScoreHome(BoxScore homeBoxScore) {
 //		homeBoxScore.addBoxScorePlayer(createMockBoxScorePlayerHome_0());
 //		homeBoxScore.addBoxScorePlayer(createMockBoxScorePlayerHome_1());
 		homeBoxScore.setMinutes((short)240);
@@ -212,7 +213,7 @@ public class GameRepositoryTest {
 		homeBoxScore.setPersonalFouls((short)18);
 	}
 
-	private void updateMockBoxScoreAway(Long id, BoxScore awayBoxScore) {
+	private void updateMockBoxScoreAway(BoxScore awayBoxScore) {
 //		awayBoxScore.addBoxScorePlayer(createMockBoxScorePlayerAway());
 		awayBoxScore.setMinutes((short)240);
 		awayBoxScore.setPoints((short)98);

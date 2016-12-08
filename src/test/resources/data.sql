@@ -94,6 +94,14 @@ insert into game VALUES(10, '2015-01-07 19:00:00.0', 'Regular', 'Scheduled');
 insert into boxScore (id, gameId, teamId, location) VALUES(19, 10, 20, 'Home');
 insert into boxScore (id, gameId, teamId, location) VALUES(20, 10, 21, 'Away');
 
+insert into game VALUES(11, '2015-01-08 19:00:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(21, 11, 20, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(22, 11, 21, 'Away');
+
+insert into game VALUES(12, '2015-01-09 19:00:00.0', 'Regular', 'Scheduled');
+insert into boxScore (id, gameId, teamId, location) VALUES(23, 12, 20, 'Home');
+insert into boxScore (id, gameId, teamId, location) VALUES(24, 12, 21, 'Away');
+
 insert into standing (id, teamId, standingDate, rank, ordinalRank, gamesWon, gamesLost, streak, streakType, streakTotal, gamesBack, pointsFor, pointsAgainst, homeWins, homeLosses,
 awayWins, awayLosses, conferenceWins, conferenceLosses, lastFive, lastTen, gamesPlayed, pointsScoredPerGame, PointsAllowedPerGame, WinPercentage, PointDifferential, pointDifferentialPerGame)
 VALUES(1, 1, '2015-10-30', 1, '1st', 1, 0, 1, 'win', 1, 0, 114, 98, 1, 0, 0, 0, 0, 0, '1-0', '1-0', 1, 114, 98, 1.00, 16, 16);

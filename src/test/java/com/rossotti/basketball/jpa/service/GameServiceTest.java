@@ -113,7 +113,7 @@ public class GameServiceTest {
 
 	@Test
 	public void create_Created() {
-		Game createGame = gameService.create(createMockGame(LocalDateTime.of(2016, 10, 11, 22, 0), 23L, 1L, "chicago-zephyr's", 24L, 2L, "harlem-globetrotter's", Game.GameStatus.Scheduled));
+		Game createGame = gameService.create(createMockGame(LocalDateTime.of(2016, 10, 11, 22, 0), 1L, "chicago-zephyr's", 2L, "harlem-globetrotter's", Game.GameStatus.Scheduled));
 		Game findGame = gameService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2016, 10, 11));
 		Assert.assertTrue(createGame.isCreated());
 		Assert.assertEquals(2, findGame.getBoxScores().size());
@@ -122,60 +122,69 @@ public class GameServiceTest {
 
 	@Test
 	public void create_Exists() {
-		Game createGame = gameService.create(createMockGame(LocalDateTime.of(2015, 10, 27, 20, 30), 3L, 3L, "st-louis-bomber's", 4L, 4L, "salinas-cowboys", Game.GameStatus.Scheduled));
+		Game createGame = gameService.create(createMockGame(LocalDateTime.of(2015, 10, 27, 20, 30), 3L, "st-louis-bomber's", 4L, "salinas-cowboys", Game.GameStatus.Scheduled));
 		Assert.assertTrue(createGame.isFound());
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
 	public void create_MissingRequiredData() {
-		gameService.create(createMockGame(LocalDateTime.of(2016, 10, 13, 22, 0), 21L, 1L, "chicago-zephyr's", 22L, 2L, "harlem-globetrotter's", null));
+		gameService.create(createMockGame(LocalDateTime.of(2016, 10, 13, 22, 0), 1L, "chicago-zephyr's", 2L, "harlem-globetrotter's", null));
 	}
 
-//	@Test
-//	public void update_Updated() {
-//		Game updateGame = gameService.update(createMockGame("Forte", "Brian", LocalDate.of(2010, 4, 25), LocalDate.of(2012, 12, 31), "19"));
-//		Game game = gameService.findByLastNameAndFirstNameAndAsOfDate("Forte", "Brian", LocalDate.of(2010, 4, 25));
-//		Assert.assertEquals("19", game.getNumber());
-//		Assert.assertEquals(LocalDate.of(2012, 12, 31), game.getToDate());
-//		Assert.assertTrue(updateGame.isUpdated());
-//	}
-//
-//	@Test
-//	public void update_NotFound() {
-//		Game updateGame = gameService.update(createMockGame("Forte", "Brian", LocalDate.of(2009, 4, 25), LocalDate.of(2009, 12, 31), "19"));
-//		Assert.assertTrue(updateGame.isNotFound());
-//	}
-//
-//	@Test(expected=DataIntegrityViolationException.class)
-//	public void update_MissingRequiredData() {
-//		gameService.update(createMockGame("Forte", "Brian", LocalDate.of(2010, 4, 25), LocalDate.of(2012, 12, 31), null));
-//	}
-//
-//	@Test
-//	public void delete_Deleted() {
-//		Game deleteGame = gameService.delete(21L);
-//		Game findGame = gameService.getById(21L);
-//		Assert.assertNull(findGame);
-//		Assert.assertTrue(deleteGame.isDeleted());
-//	}
-//
-//	@Test
-//	public void delete_NotFound() {
-//		Game deleteGame = gameService.delete(101L);
-//		Assert.assertTrue(deleteGame.isNotFound());
-//	}
+	@Test
+	public void update_Updated() {
+		Game updateGame = gameService.update(updateMockGame(LocalDateTime.of(2015, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazz", Game.GameStatus.Completed));
+		Game findGame = gameService.findByTeamKeyAndAsOfDate("chicago-bulls", LocalDate.of(2015, 1, 7));
+		Assert.assertTrue(updateGame.isUpdated());
+		Assert.assertEquals(Game.GameStatus.Completed, findGame.getStatus());
+		Assert.assertEquals(2, findGame.getBoxScores().size());
+		Assert.assertEquals("Utah Jazz", findGame.getBoxScoreAway().getTeam().getFullName());
+		Assert.assertTrue(findGame.getBoxScoreAway().getFreeThrowMade().equals((short)18));
+		Assert.assertTrue(findGame.getBoxScoreHome().getFreeThrowMade().equals((short)10));
+	}
 
-	private Game createMockGame(LocalDateTime gameDateTime, Long boxScoreIdHome, Long teamIdHome, String teamKeyHome, Long boxScoreIdAway, Long teamIdAway, String teamKeyAway, Game.GameStatus status) {
+	@Test
+	public void update_NotFound_TeamKey() {
+		Game updateGame = gameService.update(updateMockGame(LocalDateTime.of(2015, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazzers", Game.GameStatus.Completed));
+		Assert.assertTrue(updateGame.isNotFound());
+	}
+
+	@Test
+	public void update_NotFound_AsOfDateTime() {
+		Game updateGame = gameService.update(updateMockGame(LocalDateTime.of(2014, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazz", Game.GameStatus.Completed));
+		Assert.assertTrue(updateGame.isNotFound());
+	}
+
+	@Test(expected=DataIntegrityViolationException.class)
+	public void update_MissingRequiredData() {
+		gameService.update(updateMockGame(LocalDateTime.of(2015, 1, 7, 19, 0), 20L, "chicago-bulls", 21L, "utah-jazz", null));
+	}
+
+	@Test
+	public void delete_Deleted() {
+		Game deleteGame = gameService.delete(12L);
+		Game findGame = gameService.getById(12L);
+		Assert.assertNull(findGame);
+		Assert.assertTrue(deleteGame.isDeleted());
+	}
+
+	@Test
+	public void delete_NotFound() {
+		Game deleteGame = gameService.delete(101L);
+		Assert.assertTrue(deleteGame.isNotFound());
+	}
+
+	private Game createMockGame(LocalDateTime gameDateTime, Long teamIdHome, String teamKeyHome, Long teamIdAway, String teamKeyAway, Game.GameStatus status) {
 		Game game = new Game();
 		game.setGameDateTime(gameDateTime);
 		game.setSeasonType(Game.SeasonType.Regular);
 		game.setStatus(status);
-		game.addBoxScore(createMockBoxScore(game, boxScoreIdHome, teamIdHome, teamKeyHome, BoxScore.Location.Home));
-		game.addBoxScore(createMockBoxScore(game, boxScoreIdAway, teamIdAway, teamKeyAway, BoxScore.Location.Away));
+		game.addBoxScore(createMockBoxScore(game, teamIdHome, teamKeyHome, BoxScore.Location.Home));
+		game.addBoxScore(createMockBoxScore(game, teamIdAway, teamKeyAway, BoxScore.Location.Away));
 		return game;
 	}
 
-	private BoxScore createMockBoxScore(Game game, Long boxScoreId, Long teamId, String teamKey, BoxScore.Location location) {
+	private BoxScore createMockBoxScore(Game game, Long teamId, String teamKey, BoxScore.Location location) {
 		BoxScore boxScore = new BoxScore();
 		boxScore.setGame(game);
 		boxScore.setTeam(getMockTeam(teamId, teamKey));
@@ -190,4 +199,55 @@ public class GameServiceTest {
 		return team;
 	}
 
+	private Game updateMockGame(LocalDateTime gameDateTime, Long teamIdHome, String teamKeyHome, Long teamIdAway, String teamKeyAway, Game.GameStatus status) {
+		Game game = createMockGame(gameDateTime, teamIdHome, teamKeyHome, teamIdAway, teamKeyAway, status);
+		updateMockBoxScoreHome(game.getBoxScoreHome());
+		updateMockBoxScoreAway(game.getBoxScoreAway());
+		return game;
+	}
+
+	private void updateMockBoxScoreHome(BoxScore homeBoxScore) {
+//		homeBoxScore.addBoxScorePlayer(createMockBoxScorePlayerHome_0());
+//		homeBoxScore.addBoxScorePlayer(createMockBoxScorePlayerHome_1());
+		homeBoxScore.setMinutes((short)240);
+		homeBoxScore.setPoints((short)98);
+		homeBoxScore.setAssists((short)14);
+		homeBoxScore.setTurnovers((short)5);
+		homeBoxScore.setSteals((short)7);
+		homeBoxScore.setBlocks((short)5);
+		homeBoxScore.setFieldGoalAttempts((short)44);
+		homeBoxScore.setFieldGoalMade((short)22);
+		homeBoxScore.setFieldGoalPercent((float).500);
+		homeBoxScore.setThreePointAttempts((short)10);
+		homeBoxScore.setThreePointMade((short)6);
+		homeBoxScore.setThreePointPercent((float).6);
+		homeBoxScore.setFreeThrowAttempts((short)20);
+		homeBoxScore.setFreeThrowMade((short)10);
+		homeBoxScore.setFreeThrowPercent((float).500);
+		homeBoxScore.setReboundsOffense((short)25);
+		homeBoxScore.setReboundsDefense((short)5);
+		homeBoxScore.setPersonalFouls((short)18);
+	}
+
+	private void updateMockBoxScoreAway(BoxScore awayBoxScore) {
+//		awayBoxScore.addBoxScorePlayer(createMockBoxScorePlayerAway());
+		awayBoxScore.setMinutes((short)240);
+		awayBoxScore.setPoints((short)98);
+		awayBoxScore.setAssists((short)14);
+		awayBoxScore.setTurnovers((short)5);
+		awayBoxScore.setSteals((short)7);
+		awayBoxScore.setBlocks((short)5);
+		awayBoxScore.setFieldGoalAttempts((short)44);
+		awayBoxScore.setFieldGoalMade((short)22);
+		awayBoxScore.setFieldGoalPercent((float).500);
+		awayBoxScore.setThreePointAttempts((short)10);
+		awayBoxScore.setThreePointMade((short)6);
+		awayBoxScore.setThreePointPercent((float).6);
+		awayBoxScore.setFreeThrowAttempts((short)20);
+		awayBoxScore.setFreeThrowMade((short)18);
+		awayBoxScore.setFreeThrowPercent((float).500);
+		awayBoxScore.setReboundsOffense((short)25);
+		awayBoxScore.setReboundsDefense((short)5);
+		awayBoxScore.setPersonalFouls((short)18);
+	}
 }
