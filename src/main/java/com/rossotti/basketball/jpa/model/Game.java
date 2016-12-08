@@ -48,20 +48,20 @@ public class Game extends AbstractDomainClass {
 		}
 	}
 
-//	@OneToMany(mappedBy="game", fetch = FetchType.LAZY, cascade= CascadeType.ALL)
-//	private List<GameOfficial> gameOfficials = new ArrayList<GameOfficial>();
-//	public List<GameOfficial> getGameOfficials() {
-//		return gameOfficials;
-//	}
-//	public void setGameOfficials(List<GameOfficial> gameOfficials) {
-//		this.gameOfficials = gameOfficials;
-//	}
-//	public void addGameOfficial(GameOfficial gameOfficial) {
-//		this.getGameOfficials().add(gameOfficial);
-//	}
-//	public void removeGameOfficial(GameOfficial gameOfficial) {
-//		this.getGameOfficials().remove(gameOfficial);
-//	}
+	@OneToMany(mappedBy="game", fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+	private List<GameOfficial> gameOfficials = new ArrayList<GameOfficial>();
+	public List<GameOfficial> getGameOfficials() {
+		return gameOfficials;
+	}
+	public void setGameOfficials(List<GameOfficial> gameOfficials) {
+		this.gameOfficials = gameOfficials;
+	}
+	public void addGameOfficial(GameOfficial gameOfficial) {
+		this.getGameOfficials().add(gameOfficial);
+	}
+	public void removeGameOfficial(GameOfficial gameOfficial) {
+		this.getGameOfficials().remove(gameOfficial);
+	}
 
 	@Column(name="gameDateTime", nullable=false)
 	private LocalDateTime gameDateTime;

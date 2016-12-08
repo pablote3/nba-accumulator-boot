@@ -3,6 +3,7 @@ package com.rossotti.basketball.jpa.service.impl;
 import com.rossotti.basketball.jpa.model.AbstractDomainClass.StatusCodeDAO;
 import com.rossotti.basketball.jpa.model.BoxScore;
 import com.rossotti.basketball.jpa.model.Game;
+import com.rossotti.basketball.jpa.model.GameOfficial;
 import com.rossotti.basketball.jpa.repository.GameRepository;
 import com.rossotti.basketball.jpa.service.GameService;
 import com.rossotti.basketball.util.DateTimeUtil;
@@ -91,11 +92,11 @@ public class GameServiceImpl implements GameService {
 				return findGame;
 			}
 			findGame.setStatus(updateGame.getStatus());
-//			for (int i = 0; i < updateGame.getGameOfficials().size(); i++) {
-//				GameOfficial gameOfficial = updateGame.getGameOfficials().get(i);
-//				gameOfficial.setGame(findGame);
-//				findGame.addGameOfficial(gameOfficial);
-//			}
+			for (int i = 0; i < updateGame.getGameOfficials().size(); i++) {
+				GameOfficial gameOfficial = updateGame.getGameOfficials().get(i);
+				gameOfficial.setGame(findGame);
+				findGame.addGameOfficial(gameOfficial);
+			}
 			BoxScore findHomeBoxScore = findGame.getBoxScoreHome();
 			BoxScore updateHomeBoxScore = updateGame.getBoxScoreHome();
 			findHomeBoxScore.setResult(updateHomeBoxScore.getResult());

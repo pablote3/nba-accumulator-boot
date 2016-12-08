@@ -1,8 +1,6 @@
 package com.rossotti.basketball.jpa.repository;
 
-import com.rossotti.basketball.jpa.model.BoxScore;
-import com.rossotti.basketball.jpa.model.Game;
-import com.rossotti.basketball.jpa.model.Team;
+import com.rossotti.basketball.jpa.model.*;
 import com.rossotti.basketball.util.DateTimeUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -45,6 +43,8 @@ public class GameRepositoryTest {
 		Game game = gameRepository.findByTeamKeyAndFromDateAndToDate("chicago-zephyr's", DateTimeUtil.getLocalDateTimeMin(LocalDate.of(2015, 10, 27)), DateTimeUtil.getLocalDateTimeMax(LocalDate.of(2015, 10, 27)));
 		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 20, 0), game.getGameDateTime());
 		Assert.assertEquals("Harlem Globetrotter's", game.getBoxScoreAway().getTeam().getFullName());
+		Assert.assertEquals(3, game.getGameOfficials().size());
+		Assert.assertEquals("QuestionableCall", game.getGameOfficials().get(2).getOfficial().getLastName());
 		Assert.assertTrue(game.getBoxScoreAway().getPoints().equals((short)98));
 	}
 
@@ -133,6 +133,8 @@ public class GameRepositoryTest {
 	public void update_Updated() {
 		gameRepository.save(updateMockGame(8L, LocalDateTime.of(2015, 10, 15, 10, 0), 15L, 6L, "cleveland-rebels", 16L, 5L, "baltimore-bullets", Game.GameStatus.Completed));
 		Game findGame = gameRepository.findByTeamKeyAndFromDateAndToDate("cleveland-rebels", DateTimeUtil.getLocalDateTimeMin(LocalDate.of(2015, 10, 15)), DateTimeUtil.getLocalDateTimeMax(LocalDate.of(2015, 10, 15)));
+		Assert.assertEquals(3, findGame.getGameOfficials().size());
+		Assert.assertEquals("MissedCa'll", findGame.getGameOfficials().get(1).getOfficial().getLastName());
 		Assert.assertEquals(2, findGame.getBoxScores().size());
 		Assert.assertEquals("Baltimore Bullets", findGame.getBoxScoreAway().getTeam().getFullName());
 		Assert.assertTrue(findGame.getBoxScoreAway().getFreeThrowMade().equals((short)18));
@@ -185,9 +187,27 @@ public class GameRepositoryTest {
 
 	private Game updateMockGame(Long id, LocalDateTime gameDateTime, Long boxScoreIdHome, Long teamIdHome, String teamKeyHome, Long boxScoreIdAway, Long teamIdAway, String teamKeyAway, Game.GameStatus status) {
 		Game game = createMockGame(id, gameDateTime, boxScoreIdHome, teamIdHome, teamKeyHome, boxScoreIdAway, teamIdAway, teamKeyAway, status);
+		game.addGameOfficial(createMockGameOfficial(game, 1L, "LateCall", "Joe"));
+		game.addGameOfficial(createMockGameOfficial(game, 3L, "MissedCa'll", "Mike"));
+		game.addGameOfficial(createMockGameOfficial(game, 4L, "QuestionableCall", "Hefe"));
 		updateMockBoxScoreHome(game.getBoxScoreHome());
 		updateMockBoxScoreAway(game.getBoxScoreAway());
 		return game;
+	}
+
+	private GameOfficial createMockGameOfficial(Game game, Long officialId, String lastName, String firstName) {
+		GameOfficial gameOfficial = new GameOfficial();
+		gameOfficial.setGame(game);
+		gameOfficial.setOfficial(getMockOfficial(officialId, lastName, firstName));
+		return gameOfficial;
+	}
+
+	private Official getMockOfficial(Long officialId, String lastName, String firstName) {
+		Official official = new Official();
+		official.setId(officialId);
+		official.setLastName(lastName);
+		official.setFirstName(firstName);
+		return official;
 	}
 
 	private void updateMockBoxScoreHome(BoxScore homeBoxScore) {

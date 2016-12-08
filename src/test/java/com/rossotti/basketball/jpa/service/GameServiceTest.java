@@ -1,9 +1,8 @@
 package com.rossotti.basketball.jpa.service;
 
-import com.rossotti.basketball.jpa.model.BoxScore;
-import com.rossotti.basketball.jpa.model.Game;
-import com.rossotti.basketball.jpa.model.Team;
+import com.rossotti.basketball.jpa.model.*;
 import com.rossotti.basketball.util.DateTimeUtil;
+import org.apache.tomcat.jni.Local;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,6 +44,8 @@ public class GameServiceTest {
 		Game game = gameService.findByTeamKeyAndAsOfDate("chicago-zephyr's", LocalDate.of(2015, 10, 27));
 		Assert.assertEquals(LocalDateTime.of(2015, 10, 27, 20, 0), game.getGameDateTime());
 		Assert.assertEquals("Harlem Globetrotter's", game.getBoxScoreAway().getTeam().getFullName());
+		Assert.assertEquals(3, game.getGameOfficials().size());
+		Assert.assertEquals("QuestionableCall", game.getGameOfficials().get(2).getOfficial().getLastName());
 		Assert.assertTrue(game.getBoxScoreAway().getPoints().equals((short)98));
 		Assert.assertTrue(game.isFound());
 	}
@@ -137,6 +138,8 @@ public class GameServiceTest {
 		Game findGame = gameService.findByTeamKeyAndAsOfDate("chicago-bulls", LocalDate.of(2015, 1, 7));
 		Assert.assertTrue(updateGame.isUpdated());
 		Assert.assertEquals(Game.GameStatus.Completed, findGame.getStatus());
+		Assert.assertEquals(3, findGame.getGameOfficials().size());
+		Assert.assertEquals("MissedCa'll", findGame.getGameOfficials().get(1).getOfficial().getLastName());
 		Assert.assertEquals(2, findGame.getBoxScores().size());
 		Assert.assertEquals("Utah Jazz", findGame.getBoxScoreAway().getTeam().getFullName());
 		Assert.assertTrue(findGame.getBoxScoreAway().getFreeThrowMade().equals((short)18));
@@ -201,9 +204,27 @@ public class GameServiceTest {
 
 	private Game updateMockGame(LocalDateTime gameDateTime, Long teamIdHome, String teamKeyHome, Long teamIdAway, String teamKeyAway, Game.GameStatus status) {
 		Game game = createMockGame(gameDateTime, teamIdHome, teamKeyHome, teamIdAway, teamKeyAway, status);
+		game.addGameOfficial(createMockGameOfficial(game, 1L, "LateCall", "Joe"));
+		game.addGameOfficial(createMockGameOfficial(game, 3L, "MissedCa'll", "Mike"));
+		game.addGameOfficial(createMockGameOfficial(game, 4L, "QuestionableCall", "Hefe"));
 		updateMockBoxScoreHome(game.getBoxScoreHome());
 		updateMockBoxScoreAway(game.getBoxScoreAway());
 		return game;
+	}
+
+	private GameOfficial createMockGameOfficial(Game game, Long officialId, String lastName, String firstName) {
+		GameOfficial gameOfficial = new GameOfficial();
+		gameOfficial.setGame(game);
+		gameOfficial.setOfficial(getMockOfficial(officialId, lastName, firstName));
+		return gameOfficial;
+	}
+
+	private Official getMockOfficial(Long officialId, String lastName, String firstName) {
+		Official official = new Official();
+		official.setId(officialId);
+		official.setLastName(lastName);
+		official.setFirstName(firstName);
+		return official;
 	}
 
 	private void updateMockBoxScoreHome(BoxScore homeBoxScore) {
@@ -231,23 +252,23 @@ public class GameServiceTest {
 
 	private void updateMockBoxScoreAway(BoxScore awayBoxScore) {
 //		awayBoxScore.addBoxScorePlayer(createMockBoxScorePlayerAway());
-		awayBoxScore.setMinutes((short)240);
-		awayBoxScore.setPoints((short)98);
-		awayBoxScore.setAssists((short)14);
-		awayBoxScore.setTurnovers((short)5);
-		awayBoxScore.setSteals((short)7);
-		awayBoxScore.setBlocks((short)5);
-		awayBoxScore.setFieldGoalAttempts((short)44);
-		awayBoxScore.setFieldGoalMade((short)22);
-		awayBoxScore.setFieldGoalPercent((float).500);
-		awayBoxScore.setThreePointAttempts((short)10);
-		awayBoxScore.setThreePointMade((short)6);
-		awayBoxScore.setThreePointPercent((float).6);
-		awayBoxScore.setFreeThrowAttempts((short)20);
-		awayBoxScore.setFreeThrowMade((short)18);
-		awayBoxScore.setFreeThrowPercent((float).500);
-		awayBoxScore.setReboundsOffense((short)25);
-		awayBoxScore.setReboundsDefense((short)5);
-		awayBoxScore.setPersonalFouls((short)18);
+		awayBoxScore.setMinutes((short) 240);
+		awayBoxScore.setPoints((short) 98);
+		awayBoxScore.setAssists((short) 14);
+		awayBoxScore.setTurnovers((short) 5);
+		awayBoxScore.setSteals((short) 7);
+		awayBoxScore.setBlocks((short) 5);
+		awayBoxScore.setFieldGoalAttempts((short) 44);
+		awayBoxScore.setFieldGoalMade((short) 22);
+		awayBoxScore.setFieldGoalPercent((float) .500);
+		awayBoxScore.setThreePointAttempts((short) 10);
+		awayBoxScore.setThreePointMade((short) 6);
+		awayBoxScore.setThreePointPercent((float) .6);
+		awayBoxScore.setFreeThrowAttempts((short) 20);
+		awayBoxScore.setFreeThrowMade((short) 18);
+		awayBoxScore.setFreeThrowPercent((float) .500);
+		awayBoxScore.setReboundsOffense((short) 25);
+		awayBoxScore.setReboundsDefense((short) 5);
+		awayBoxScore.setPersonalFouls((short) 18);
 	}
 }

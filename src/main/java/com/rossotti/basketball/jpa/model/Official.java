@@ -2,6 +2,8 @@ package com.rossotti.basketball.jpa.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="official", uniqueConstraints=@UniqueConstraint(columnNames={"lastName", "firstName", "fromDate", "toDate"}))
@@ -15,21 +17,14 @@ public class Official extends AbstractDomainClass {
 		setStatusCode(statusCode);
 	}
 
-//	@OneToMany(mappedBy="official", fetch = FetchType.LAZY)
-//	private List<GameOfficial> gameOfficials = new ArrayList<GameOfficial>();
-//	private List<GameOfficial> getGameOfficials() {
-//		return gameOfficials;
-//	}
-//	@JsonManagedReference(value="gameOfficial-to-official")
-//	public void setGameOfficials(List<GameOfficial> gameOfficials) {
-//		this.gameOfficials = gameOfficials;
-//	}
-//	public void addGameOfficial(GameOfficial gameOfficial) {
-//		this.getGameOfficials().add(gameOfficial);
-//	}
-//	public void removeGameOfficial(GameOfficial gameOfficial) {
-//		this.getGameOfficials().remove(gameOfficial);
-//	}
+	@OneToMany(mappedBy="official", fetch = FetchType.LAZY)
+	private List<GameOfficial> gameOfficials = new ArrayList<GameOfficial>();
+	private List<GameOfficial> getGameOfficials() {
+		return gameOfficials;
+	}
+	public void setGameOfficials(List<GameOfficial> gameOfficials) {
+		this.gameOfficials = gameOfficials;
+	}
 
 	@Column(name="lastName", length=25, nullable=false)
 	private String lastName;

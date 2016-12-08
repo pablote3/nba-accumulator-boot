@@ -55,6 +55,9 @@ insert into official VALUES(21, 'Sean', '1993-11-05', 'Corbin', '33', '9999-12-3
 insert into official VALUES(22, 'J.T.', '2009-12-08', 'Orr', '72', '9999-12-31');
 
 insert into game VALUES(1, '2015-10-27 20:00:00.0', 'Regular', 'Completed');
+insert into gameOfficial (id, gameId, officialId) VALUES(1, 1, 2);
+insert into gameOfficial (id, gameId, officialId) VALUES(2, 1, 3);
+insert into gameOfficial (id, gameId, officialId) VALUES(3, 1, 4);
 insert into boxScore (id, gameId, teamId, location, result, points) VALUES(1, 1, 1, 'Home', 'Win', 114);
 insert into boxScore (id, gameId, teamId, location, result, points) VALUES(2, 1, 2, 'Away', 'Loss', 98);
 
