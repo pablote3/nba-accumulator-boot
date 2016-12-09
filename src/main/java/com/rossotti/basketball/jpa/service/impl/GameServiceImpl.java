@@ -127,10 +127,10 @@ public class GameServiceImpl implements GameService {
 			findHomeBoxScore.setReboundsDefense(updateHomeBoxScore.getReboundsDefense());
 			findHomeBoxScore.setPersonalFouls(updateHomeBoxScore.getPersonalFouls());
 			findHomeBoxScore.setDaysOff(updateHomeBoxScore.getDaysOff());
-//			findHomeBoxScore.setBoxScorePlayers(updateHomeBoxScore.getBoxScorePlayers());
-//			for (int i = 0; i < findHomeBoxScore.getBoxScorePlayers().size(); i++) {
-//				findHomeBoxScore.getBoxScorePlayers().get(i).setBoxScore(findHomeBoxScore);
-//			}
+			findHomeBoxScore.setBoxScorePlayers(updateHomeBoxScore.getBoxScorePlayers());
+			for (int i = 0; i < findHomeBoxScore.getBoxScorePlayers().size(); i++) {
+				findHomeBoxScore.getBoxScorePlayers().get(i).setBoxScore(findHomeBoxScore);
+			}
 
 			BoxScore findAwayBoxScore = findGame.getBoxScoreAway();
 			BoxScore updateAwayBoxScore = updateGame.getBoxScoreAway();
@@ -162,10 +162,10 @@ public class GameServiceImpl implements GameService {
 			findAwayBoxScore.setReboundsDefense(updateAwayBoxScore.getReboundsDefense());
 			findAwayBoxScore.setPersonalFouls(updateAwayBoxScore.getPersonalFouls());
 			findAwayBoxScore.setDaysOff(updateAwayBoxScore.getDaysOff());
-//			findAwayBoxScore.setBoxScorePlayers(updateAwayBoxScore.getBoxScorePlayers());
-//			for (int i = 0; i < findAwayBoxScore.getBoxScorePlayers().size(); i++) {
-//				findAwayBoxScore.getBoxScorePlayers().get(i).setBoxScore(findAwayBoxScore);
-//			}
+			findAwayBoxScore.setBoxScorePlayers(updateAwayBoxScore.getBoxScorePlayers());
+			for (int i = 0; i < findAwayBoxScore.getBoxScorePlayers().size(); i++) {
+				findAwayBoxScore.getBoxScorePlayers().get(i).setBoxScore(findAwayBoxScore);
+			}
 			gameRepository.save(findGame);
 			findGame.setStatusCode(StatusCodeDAO.Updated);
 		}

@@ -18,7 +18,7 @@ public class Game extends AbstractDomainClass {
 	}
 
 	@OneToMany(mappedBy="game", fetch = FetchType.LAZY, cascade= CascadeType.ALL)
-	private List<BoxScore> boxScores = new ArrayList<BoxScore>();
+	private List<BoxScore> boxScores = new ArrayList<>();
 	public List<BoxScore> getBoxScores() {
 		return boxScores;
 	}
@@ -49,7 +49,7 @@ public class Game extends AbstractDomainClass {
 	}
 
 	@OneToMany(mappedBy="game", fetch = FetchType.LAZY, cascade= CascadeType.ALL)
-	private List<GameOfficial> gameOfficials = new ArrayList<GameOfficial>();
+	private List<GameOfficial> gameOfficials = new ArrayList<>();
 	public List<GameOfficial> getGameOfficials() {
 		return gameOfficials;
 	}

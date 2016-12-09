@@ -18,7 +18,7 @@ public class Official extends AbstractDomainClass {
 	}
 
 	@OneToMany(mappedBy="official", fetch = FetchType.LAZY)
-	private List<GameOfficial> gameOfficials = new ArrayList<GameOfficial>();
+	private List<GameOfficial> gameOfficials = new ArrayList<>();
 	private List<GameOfficial> getGameOfficials() {
 		return gameOfficials;
 	}

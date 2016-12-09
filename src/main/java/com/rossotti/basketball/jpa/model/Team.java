@@ -36,7 +36,7 @@ public class Team extends AbstractDomainClass {
 	}
 
 	@OneToMany(mappedBy="team", fetch = FetchType.LAZY)
-	private List<BoxScore> boxScores = new ArrayList<BoxScore>();
+	private List<BoxScore> boxScores = new ArrayList<>();
 	public List<BoxScore> getBoxScores() {
 		return boxScores;
 	}

@@ -59,7 +59,10 @@ insert into gameOfficial (id, gameId, officialId) VALUES(1, 1, 2);
 insert into gameOfficial (id, gameId, officialId) VALUES(2, 1, 3);
 insert into gameOfficial (id, gameId, officialId) VALUES(3, 1, 4);
 insert into boxScore (id, gameId, teamId, location, result, points) VALUES(1, 1, 1, 'Home', 'Win', 114);
+insert into boxScorePlayer(id, boxScoreId, rosterPlayerId, position, starter, points) VALUES(1, 1, 1, 'SG', true, 12);
 insert into boxScore (id, gameId, teamId, location, result, points) VALUES(2, 1, 2, 'Away', 'Loss', 98);
+insert into boxScorePlayer(id, boxScoreId, rosterPlayerId, position, starter, points) VALUES(2, 2, 2, 'PG', false, 0);
+insert into boxScorePlayer(id, boxScoreId, rosterPlayerId, position, starter, points) VALUES(3, 2, 3, 'C', true, 5);
 
 insert into game VALUES(2, '2015-10-27 21:00:00.0', 'Regular', 'Scheduled');
 insert into boxScore (id, gameId, teamId, location) VALUES(3, 2, 3, 'Home');

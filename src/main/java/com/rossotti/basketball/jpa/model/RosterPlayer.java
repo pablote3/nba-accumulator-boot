@@ -2,6 +2,8 @@ package com.rossotti.basketball.jpa.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="rosterPlayer", uniqueConstraints=@UniqueConstraint(columnNames={"playerId", "teamId", "fromDate", "toDate"}))
@@ -35,21 +37,20 @@ public class RosterPlayer extends AbstractDomainClass {
 		this.player = player;
 	}
 
-//	@OneToMany(mappedBy="rosterPlayer", fetch = FetchType.LAZY, cascade= CascadeType.ALL)
-//	private List<BoxScorePlayer> boxScorePlayers = new ArrayList<BoxScorePlayer>();
-//	private List<BoxScorePlayer> getBoxScorePlayers()  {
-//		return boxScorePlayers;
-//	}
-//	@JsonManagedReference(value="boxScorePlayer-to-rosterPlayer")
-//	public void setBoxScorePlayers(List<BoxScorePlayer> boxScorePlayers)  {
-//		this.boxScorePlayers = boxScorePlayers;
-//	}
-//	public void addBoxScorePlayer(BoxScorePlayer boxScorePlayer)  {
-//		this.getBoxScorePlayers().add(boxScorePlayer);
-//	}
-//	public void removeBoxScorePlayer(BoxScorePlayer boxScorePlayer)  {
-//		this.getBoxScorePlayers().remove(boxScorePlayer);
-//	}
+	@OneToMany(mappedBy="rosterPlayer", fetch = FetchType.LAZY)
+	private List<BoxScorePlayer> boxScorePlayers = new ArrayList<>();
+	private List<BoxScorePlayer> getBoxScorePlayers()  {
+		return boxScorePlayers;
+	}
+	public void setBoxScorePlayers(List<BoxScorePlayer> boxScorePlayers)  {
+		this.boxScorePlayers = boxScorePlayers;
+	}
+	public void addBoxScorePlayer(BoxScorePlayer boxScorePlayer)  {
+		this.getBoxScorePlayers().add(boxScorePlayer);
+	}
+	public void removeBoxScorePlayer(BoxScorePlayer boxScorePlayer)  {
+		this.getBoxScorePlayers().remove(boxScorePlayer);
+	}
 
 	@Column(name="fromDate", nullable=false)
 	private LocalDate fromDate;

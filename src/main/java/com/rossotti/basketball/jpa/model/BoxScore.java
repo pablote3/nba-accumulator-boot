@@ -30,20 +30,20 @@ public class BoxScore extends AbstractDomainClass {
 		this.team = team;
 	}
 
-//	@OneToMany(mappedBy="boxScore", fetch = FetchType.LAZY, cascade= CascadeType.ALL)
-//	private List<BoxScorePlayer> boxScorePlayers = new ArrayList<BoxScorePlayer>();
-//	public List<BoxScorePlayer> getBoxScorePlayers()  {
-//		return boxScorePlayers;
-//	}
-//	public void setBoxScorePlayers(List<BoxScorePlayer> boxScorePlayers)  {
-//		this.boxScorePlayers = boxScorePlayers;
-//	}
-//	public void addBoxScorePlayer(BoxScorePlayer boxScorePlayer)  {
-//		this.getBoxScorePlayers().add(boxScorePlayer);
-//	}
-//	public void removeBoxScorePlayer(BoxScorePlayer boxScorePlayer)  {
-//		this.getBoxScorePlayers().remove(boxScorePlayer);
-//	}
+	@OneToMany(mappedBy="boxScore", fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+	private List<BoxScorePlayer> boxScorePlayers = new ArrayList<>();
+	public List<BoxScorePlayer> getBoxScorePlayers()  {
+		return boxScorePlayers;
+	}
+	public void setBoxScorePlayers(List<BoxScorePlayer> boxScorePlayers)  {
+		this.boxScorePlayers = boxScorePlayers;
+	}
+	public void addBoxScorePlayer(BoxScorePlayer boxScorePlayer)  {
+		this.getBoxScorePlayers().add(boxScorePlayer);
+	}
+	public void removeBoxScorePlayer(BoxScorePlayer boxScorePlayer)  {
+		this.getBoxScorePlayers().remove(boxScorePlayer);
+	}
 
 	@Enumerated(EnumType.STRING)
 	@Column(name="location", length=5, nullable=false)
