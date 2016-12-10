@@ -46,11 +46,11 @@ public class GameRepositoryTest {
 		Assert.assertEquals("Harlem Globetrotter's", game.getBoxScoreAway().getTeam().getFullName());
 		Assert.assertEquals(3, game.getGameOfficials().size());
 		Assert.assertEquals("QuestionableCall", game.getGameOfficials().get(2).getOfficial().getLastName());
-		Assert.assertTrue(game.getBoxScoreAway().getPoints().equals((short)98));
+		Assert.assertTrue(game.getBoxScoreAway().getBoxScoreStats().getPoints().equals((short)98));
 		Assert.assertEquals(1, game.getBoxScoreHome().getBoxScorePlayers().size());
 		Assert.assertEquals(RosterPlayer.Position.SG, game.getBoxScoreHome().getBoxScorePlayers().get(0).getRosterPlayer().getPosition());
 		Assert.assertEquals(2, game.getBoxScoreAway().getBoxScorePlayers().size());
-		Assert.assertTrue(game.getBoxScoreAway().getBoxScorePlayers().get(1).getPoints().equals((short)5));
+		Assert.assertTrue(game.getBoxScoreAway().getBoxScorePlayers().get(1).getBoxScoreStats().getPoints().equals((short)5));
 	}
 
 	@Test
@@ -142,11 +142,11 @@ public class GameRepositoryTest {
 		Assert.assertEquals("MissedCa'll", findGame.getGameOfficials().get(1).getOfficial().getLastName());
 		Assert.assertEquals(2, findGame.getBoxScores().size());
 		Assert.assertEquals("Baltimore Bullets", findGame.getBoxScoreAway().getTeam().getFullName());
-		Assert.assertTrue(findGame.getBoxScoreAway().getFreeThrowMade().equals((short)18));
+		Assert.assertTrue(findGame.getBoxScoreAway().getBoxScoreStats().getFreeThrowMade().equals((short)18));
 		Assert.assertEquals(1, findGame.getBoxScoreAway().getBoxScorePlayers().size());
-		Assert.assertTrue(findGame.getBoxScoreAway().getBoxScorePlayers().get(0).getFreeThrowMade().equals((short)2));
+		Assert.assertTrue(findGame.getBoxScoreAway().getBoxScorePlayers().get(0).getBoxScoreStats().getFreeThrowMade().equals((short)2));
 		Assert.assertEquals(2, findGame.getBoxScoreHome().getBoxScorePlayers().size());
-		Assert.assertTrue(findGame.getBoxScoreHome().getBoxScorePlayers().get(0).getFreeThrowMade().equals((short)4));
+		Assert.assertTrue(findGame.getBoxScoreHome().getBoxScorePlayers().get(0).getBoxScoreStats().getFreeThrowMade().equals((short)4));
 	}
 
 	@Test(expected=DataIntegrityViolationException.class)
@@ -221,72 +221,77 @@ public class GameRepositoryTest {
 	private void updateMockBoxScoreHome(BoxScore homeBoxScore) {
 		homeBoxScore.addBoxScorePlayer(createMockBoxScorePlayerHome_0(homeBoxScore));
 		homeBoxScore.addBoxScorePlayer(createMockBoxScorePlayerHome_1(homeBoxScore));
-		homeBoxScore.setMinutes((short)240);
-		homeBoxScore.setPoints((short)98);
-		homeBoxScore.setAssists((short)14);
-		homeBoxScore.setTurnovers((short)5);
-		homeBoxScore.setSteals((short)7);
-		homeBoxScore.setBlocks((short)5);
-		homeBoxScore.setFieldGoalAttempts((short)44);
-		homeBoxScore.setFieldGoalMade((short)22);
-		homeBoxScore.setFieldGoalPercent((float).500);
-		homeBoxScore.setThreePointAttempts((short)10);
-		homeBoxScore.setThreePointMade((short)6);
-		homeBoxScore.setThreePointPercent((float).6);
-		homeBoxScore.setFreeThrowAttempts((short)20);
-		homeBoxScore.setFreeThrowMade((short)10);
-		homeBoxScore.setFreeThrowPercent((float).500);
-		homeBoxScore.setReboundsOffense((short)25);
-		homeBoxScore.setReboundsDefense((short)5);
-		homeBoxScore.setPersonalFouls((short)18);
+		homeBoxScore.setBoxScoreStats(new BoxScoreStats());
+		homeBoxScore.getBoxScoreStats().setMinutes((short)240);
+		homeBoxScore.getBoxScoreStats().setPoints((short)98);
+		homeBoxScore.getBoxScoreStats().setAssists((short)14);
+		homeBoxScore.getBoxScoreStats().setTurnovers((short)5);
+		homeBoxScore.getBoxScoreStats().setSteals((short)7);
+		homeBoxScore.getBoxScoreStats().setBlocks((short)5);
+		homeBoxScore.getBoxScoreStats().setFieldGoalAttempts((short)44);
+		homeBoxScore.getBoxScoreStats().setFieldGoalMade((short)22);
+		homeBoxScore.getBoxScoreStats().setFieldGoalPercent((float).500);
+		homeBoxScore.getBoxScoreStats().setThreePointAttempts((short)10);
+		homeBoxScore.getBoxScoreStats().setThreePointMade((short)6);
+		homeBoxScore.getBoxScoreStats().setThreePointPercent((float).6);
+		homeBoxScore.getBoxScoreStats().setFreeThrowAttempts((short)20);
+		homeBoxScore.getBoxScoreStats().setFreeThrowMade((short)10);
+		homeBoxScore.getBoxScoreStats().setFreeThrowPercent((float).500);
+		homeBoxScore.getBoxScoreStats().setReboundsOffense((short)25);
+		homeBoxScore.getBoxScoreStats().setReboundsDefense((short)5);
+		homeBoxScore.getBoxScoreStats().setPersonalFouls((short)18);
 	}
 
 	private void updateMockBoxScoreAway(BoxScore awayBoxScore) {
 		awayBoxScore.addBoxScorePlayer(createMockBoxScorePlayerAway(awayBoxScore));
-		awayBoxScore.setMinutes((short)240);
-		awayBoxScore.setPoints((short)98);
-		awayBoxScore.setAssists((short)14);
-		awayBoxScore.setTurnovers((short)5);
-		awayBoxScore.setSteals((short)7);
-		awayBoxScore.setBlocks((short)5);
-		awayBoxScore.setFieldGoalAttempts((short)44);
-		awayBoxScore.setFieldGoalMade((short)22);
-		awayBoxScore.setFieldGoalPercent((float).500);
-		awayBoxScore.setThreePointAttempts((short)10);
-		awayBoxScore.setThreePointMade((short)6);
-		awayBoxScore.setThreePointPercent((float).6);
-		awayBoxScore.setFreeThrowAttempts((short)20);
-		awayBoxScore.setFreeThrowMade((short)18);
-		awayBoxScore.setFreeThrowPercent((float).500);
-		awayBoxScore.setReboundsOffense((short)25);
-		awayBoxScore.setReboundsDefense((short)5);
-		awayBoxScore.setPersonalFouls((short)18);
+		awayBoxScore.setBoxScoreStats(new BoxScoreStats());
+		awayBoxScore.getBoxScoreStats().setMinutes((short)240);
+		awayBoxScore.getBoxScoreStats().setPoints((short)98);
+		awayBoxScore.getBoxScoreStats().setAssists((short)14);
+		awayBoxScore.getBoxScoreStats().setTurnovers((short)5);
+		awayBoxScore.getBoxScoreStats().setSteals((short)7);
+		awayBoxScore.getBoxScoreStats().setBlocks((short)5);
+		awayBoxScore.getBoxScoreStats().setFieldGoalAttempts((short)44);
+		awayBoxScore.getBoxScoreStats().setFieldGoalMade((short)22);
+		awayBoxScore.getBoxScoreStats().setFieldGoalPercent((float).500);
+		awayBoxScore.getBoxScoreStats().setThreePointAttempts((short)10);
+		awayBoxScore.getBoxScoreStats().setThreePointMade((short)6);
+		awayBoxScore.getBoxScoreStats().setThreePointPercent((float).6);
+		awayBoxScore.getBoxScoreStats().setFreeThrowAttempts((short)20);
+		awayBoxScore.getBoxScoreStats().setFreeThrowMade((short)18);
+		awayBoxScore.getBoxScoreStats().setFreeThrowPercent((float).500);
+		awayBoxScore.getBoxScoreStats().setReboundsOffense((short)25);
+		awayBoxScore.getBoxScoreStats().setReboundsDefense((short)5);
+		awayBoxScore.getBoxScoreStats().setPersonalFouls((short)18);
 	}
 
 	private BoxScorePlayer createMockBoxScorePlayerHome_0(BoxScore boxScore) {
 		BoxScorePlayer homeBoxScorePlayer = new BoxScorePlayer();
+		homeBoxScorePlayer.setBoxScoreStats(new BoxScoreStats());
 		homeBoxScorePlayer.setBoxScore(boxScore);
 		homeBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(2L, "Puzdrakiewicz", "Luke", LocalDate.of(2002, 2, 20), LocalDate.of(2009, 11, 30), LocalDate.of(9999, 12, 31)));
 		homeBoxScorePlayer.setPosition(Position.F);
-		homeBoxScorePlayer.setFreeThrowMade((short)4);
+		homeBoxScorePlayer.getBoxScoreStats().setFreeThrowMade((short)4);
 		return homeBoxScorePlayer;
 	}
 
 	private BoxScorePlayer createMockBoxScorePlayerHome_1(BoxScore boxScore) {
 		BoxScorePlayer homeBoxScorePlayer = new BoxScorePlayer();
+		homeBoxScorePlayer.setBoxScoreStats(new BoxScoreStats());
 		homeBoxScorePlayer.setBoxScore(boxScore);
 		homeBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(3L, "Puzdrakiewicz", "Thad", LocalDate.of(1966, 6, 2), LocalDate.of(2009, 10, 30), LocalDate.of(2009, 11, 4)));
 		homeBoxScorePlayer.setPosition(Position.C);
-		homeBoxScorePlayer.setFreeThrowMade((short)0);
+		homeBoxScorePlayer.getBoxScoreStats().setFreeThrowMade((short)0);
 		return homeBoxScorePlayer;
 	}
 
 	private BoxScorePlayer createMockBoxScorePlayerAway(BoxScore boxScore) {
 		BoxScorePlayer awayBoxScorePlayer = new BoxScorePlayer();
+		awayBoxScorePlayer.setBoxScoreStats(new BoxScoreStats());
 		awayBoxScorePlayer.setBoxScore(boxScore);
 		awayBoxScorePlayer.setRosterPlayer(getMockRosterPlayer(5L, "Puzdrakiewicz", "Junior", LocalDate.of(1966, 6, 10), LocalDate.of(2009, 10, 30), LocalDate.of(9999, 12, 31)));
 		awayBoxScorePlayer.setPosition(Position.SG);
-		awayBoxScorePlayer.setFreeThrowMade((short)2);
+		awayBoxScorePlayer.getBoxScoreStats().setFreeThrowMade((short)2);
 		return awayBoxScorePlayer;
 	}
 
